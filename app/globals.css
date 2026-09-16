@@ -26,6 +26,87 @@ html {
     scroll-behavior: smooth;
 }
 
+/* ── Watercolour highlight ───────────────────────────────────────────────── */
+
+/* Keyframe: wipe the highlight in from left to right */
+@keyframes wc-wipe {
+    from { clip-path: inset(0 100% 0 0 round 4px); }
+    to   { clip-path: inset(0 0%   0 0 round 4px); }
+}
+
+/*
+ * Base class applied to every highlighted span.
+ * The actual colour comes from the colour-modifier class below.
+ * The ::before pseudo draws the watercolour swatch behind the text.
+ */
+.wc-highlight {
+    position: relative;
+    display: inline;
+    /* slight padding so the swatch extends just past the glyphs */
+    padding: 0.05em 0.18em;
+}
+
+.wc-highlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 3px;
+    z-index: -1;
+
+    /* rough watercolour edge: layered radial gradients give an uneven blob */
+    background-image:
+        radial-gradient(ellipse 120% 80% at 15%  40%, var(--wc-color-dark)  0%, transparent 70%),
+        radial-gradient(ellipse  90% 110% at 80% 20%, var(--wc-color-mid)   0%, transparent 65%),
+        radial-gradient(ellipse 110% 90% at 50% 80%, var(--wc-color-light)  0%, transparent 60%),
+        radial-gradient(ellipse 100% 100% at 50% 50%, var(--wc-color-base)  0%, transparent 100%);
+
+    /* start hidden; animation class triggers the wipe */
+    clip-path: inset(0 100% 0 0 round 4px);
+
+    /* blur the pseudo slightly so edges look soft/painted */
+    filter: blur(1.5px);
+}
+
+/* The animation class is added by JS once the section is in view */
+.wc-highlight.wc-animate::before {
+    animation: wc-wipe 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Stagger siblings — JS sets --wc-delay on each span */
+.wc-highlight::before {
+    animation-delay: var(--wc-delay, 0s);
+}
+
+/* ── Colour variants ─────────────────────────────────────────────────────── */
+
+.wc-yellow {
+    --wc-color-base:  rgba(255, 220,  60, 0.55);
+    --wc-color-light: rgba(255, 240, 120, 0.40);
+    --wc-color-mid:   rgba(245, 200,  30, 0.50);
+    --wc-color-dark:  rgba(220, 170,  10, 0.35);
+}
+
+.wc-blue {
+    --wc-color-base:  rgba( 90, 160, 230, 0.45);
+    --wc-color-light: rgba(150, 200, 255, 0.35);
+    --wc-color-mid:   rgba( 60, 130, 210, 0.45);
+    --wc-color-dark:  rgba( 40, 100, 180, 0.30);
+}
+
+.wc-orange {
+    --wc-color-base:  rgba(255, 150,  50, 0.50);
+    --wc-color-light: rgba(255, 190, 100, 0.38);
+    --wc-color-mid:   rgba(240, 120,  20, 0.48);
+    --wc-color-dark:  rgba(200,  90,  10, 0.32);
+}
+
+.wc-green {
+    --wc-color-base:  rgba( 80, 185, 110, 0.45);
+    --wc-color-light: rgba(140, 220, 160, 0.35);
+    --wc-color-mid:   rgba( 50, 160,  80, 0.45);
+    --wc-color-dark:  rgba( 20, 130,  55, 0.30);
+}
+
 body {
     background-color: var(--bg);
     color: var(--text);
@@ -43,79 +124,4 @@ h1 {
     font-family: var(--font-lora), serif;
 }
 
-.blog-content {
-    font-size: 1rem;
-    line-height: 1.625;
-    color: color-mix(in srgb, var(--text) 90%, transparent);
-}
 
-.blog-content > * + * {
-    margin-top: 1rem;
-}
-
-@layer components {
-    .blog-content ul {
-        list-style-type: disc;
-        padding-left: 1.5rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    .blog-content ol {
-        list-style-type: decimal;
-        padding-left: 1.5rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    .blog-content li {
-        margin-top: 0.25rem;
-        margin-bottom: 0.25rem;
-        padding-left: 0.25rem;
-    }
-
-    .blog-content li::marker {
-        color: var(--text-muted);
-    }
-
-    .blog-content blockquote {
-        margin: 1.5rem 0;
-        padding: 1rem 1.5rem;
-        background-color: var(--tag-bg);
-        border-left: 2px solid var(--text-muted);
-        color: var(--text);
-        font-style: italic;
-        border-radius: 0 4px 4px 0;
-    }
-
-    .blog-content h2 {
-        font-family: var(--font-lora), serif;
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin-top: 2rem;
-        color: var(--text);
-    }
-
-    .blog-content h3 {
-        font-family: var(--font-lora), serif;
-        font-size: 1.125rem;
-        font-weight: 600;
-        margin-top: 1.5rem;
-        color: var(--text);
-    }
-
-    .blog-content a {
-        color: var(--accent);
-    }
-
-    .blog-content hr {
-        border: none;
-        border-top: 1px solid var(--border);
-        margin: 2rem 0;
-    }
-
-    .blog-content strong {
-        font-weight: 600;
-        color: var(--text);
-    }
-}

@@ -1,0 +1,26 @@
+[
+  {
+    "category": "Risk Analysis & Financial Mathematics",
+    "icon": "📊",
+    "description": "Probability theory, stochastic processes, and quantitative risk modelling applied to financial systems. Covers value-at-risk, Monte Carlo simulation, and actuarial methods.",
+    "date": "Fall 2025"
+  },
+  {
+    "category": "Combinatorial Optimization",
+    "icon": "🔢",
+    "description": "Integer programming, graph algorithms, and NP-hard problem solving. Topics include network flows, matching theory, and approximation algorithms.",
+    "date": "Winter 2026"
+  },
+  {
+    "category": "Computational Mathematics",
+    "icon": "🖥️",
+    "description": "Numerical methods, linear algebra algorithms, and scientific computing. Emphasis on floating-point arithmetic, iterative solvers, and matrix decompositions.",
+    "date": "Fall 2025"
+  },
+  {
+    "category": "Operations Research",
+    "icon": "⚙️",
+    "description": "Linear programming, the simplex method, duality theory, and decision modelling. Applied to supply chain, scheduling, and resource allocation problems.",
+    "date": "Winter 2026"
+  }
+]

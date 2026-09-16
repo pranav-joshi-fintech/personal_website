@@ -4,9 +4,9 @@
   "description": "Portfolio website — University of Waterloo Mathematics/Business Administration student with experience in AI, automation, and product development.",
   "headshot": "/headshots/headshot4.png",
   "intro": [
-    "I study Mathematics and Business Administration at the University of Waterloo, with a focus on mathematical optimization, combinatorics, finance, and computer science.",
-    "I've built and shipped AI/automation tools in production — at Othership I built RAG and GPT-based systems that processed 150K+ accounts and saved $12K+ annually. I've also done contract automation work for startups like Jaybird Studios and Lagree West, and led product development at a TKS × Interac innovation sprint, presenting a Gen-Z financial coaching app to Interac's innovation team.",
-    "Outside of that, I enjoy math competitions, case studies, and exploring problems at the intersection of quantitative reasoning and real-world impact."
+    "I study [Mathematics and Business Administration](yellow) at the University of Waterloo, with a focus on [mathematical optimization](blue), combinatorics, finance, and computer science.",
+    "I've built and shipped [AI/automation tools in production](orange) — at Othership I built RAG and GPT-based systems that processed [150K+ accounts](green) and saved $12K+ annually. I've also done contract automation work for startups like Jaybird Studios and Lagree West, and led product development at a TKS × Interac innovation sprint, presenting a [Gen-Z financial coaching app](yellow) to Interac's innovation team.",
+    "Outside of that, I enjoy [math competitions](blue), case studies, and exploring problems at the intersection of [quantitative reasoning](orange) and real-world impact."
   ],
   "education": [
     {
