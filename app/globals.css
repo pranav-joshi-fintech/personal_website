@@ -28,53 +28,57 @@ html {
 
 /* ── Watercolour highlight ───────────────────────────────────────────────── */
 
-/* Keyframe: wipe the highlight in from left to right */
+/*
+ * Animate background-size from 0→100% width to wipe in the swatch.
+ * background-position: left keeps the gradient anchored while it grows.
+ */
 @keyframes wc-wipe {
-    from { clip-path: inset(0 100% 0 0 round 4px); }
-    to   { clip-path: inset(0 0%   0 0 round 4px); }
+    from { background-size: 0%   100%; }
+    to   { background-size: 100% 100%; }
 }
 
 /*
- * Base class applied to every highlighted span.
- * The actual colour comes from the colour-modifier class below.
- * The ::before pseudo draws the watercolour swatch behind the text.
+ * Base class.
+ *
+ * Key techniques:
+ *  - background-image holds the watercolour texture (layered radial gradients).
+ *  - background-size starts at 0% width so the swatch is invisible.
+ *  - background-repeat: no-repeat keeps it as a single swatch per line box.
+ *  - box-decoration-break: clone makes the browser repaint the background
+ *    independently on EACH line fragment, so wrapping text gets one swatch
+ *    per line instead of one giant rectangle across both.
+ *  - The blur filter on ::after (separate element) is gone; we rely on the
+ *    radial gradient falloff for soft edges instead.
  */
 .wc-highlight {
-    position: relative;
     display: inline;
-    /* slight padding so the swatch extends just past the glyphs */
-    padding: 0.05em 0.18em;
-}
-
-.wc-highlight::before {
-    content: "";
-    position: absolute;
-    inset: 0;
+    padding: 0.08em 0.18em;
     border-radius: 3px;
-    z-index: -1;
 
-    /* rough watercolour edge: layered radial gradients give an uneven blob */
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 0% 100%;
+
+    /* Soft, feathered edges via gradient falloff */
     background-image:
-        radial-gradient(ellipse 120% 80% at 15%  40%, var(--wc-color-dark)  0%, transparent 70%),
-        radial-gradient(ellipse  90% 110% at 80% 20%, var(--wc-color-mid)   0%, transparent 65%),
-        radial-gradient(ellipse 110% 90% at 50% 80%, var(--wc-color-light)  0%, transparent 60%),
-        radial-gradient(ellipse 100% 100% at 50% 50%, var(--wc-color-base)  0%, transparent 100%);
+        radial-gradient(ellipse 120% 80%  at 15%  40%, var(--wc-color-dark)  0%, transparent 70%),
+        radial-gradient(ellipse  90% 110% at 80%  20%, var(--wc-color-mid)   0%, transparent 65%),
+        radial-gradient(ellipse 110% 90%  at 50%  80%, var(--wc-color-light) 0%, transparent 60%),
+        radial-gradient(ellipse 100% 100% at 50%  50%, var(--wc-color-base)  0%, transparent 100%);
 
-    /* start hidden; animation class triggers the wipe */
-    clip-path: inset(0 100% 0 0 round 4px);
+    /* Paint each line-box independently — the critical fix for wrapping text */
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
 
-    /* blur the pseudo slightly so edges look soft/painted */
-    filter: blur(1.5px);
-}
-
-/* The animation class is added by JS once the section is in view */
-.wc-highlight.wc-animate::before {
-    animation: wc-wipe 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-/* Stagger siblings — JS sets --wc-delay on each span */
-.wc-highlight::before {
     animation-delay: var(--wc-delay, 0s);
+    animation-duration: 0.55s;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    animation-fill-mode: forwards;
+}
+
+/* Trigger: JS adds this class once the section enters the viewport */
+.wc-highlight.wc-animate {
+    animation-name: wc-wipe;
 }
 
 /* ── Colour variants ─────────────────────────────────────────────────────── */
