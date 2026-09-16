@@ -1,12 +1,19 @@
 @import "tailwindcss";
 
 :root {
-    --bg: #f7f5f0;
-    --text: #2d2c28;
+    --bg: #faf9f6;
+    --text: #1c1b18;
     --text-muted: #5c5b57;
     --border: #e4e2dc;
-    --accent: #4a6fa5;
-    --tag-bg: #edecea;
+    --accent: #2563eb;
+    --tag-bg: #f0ede8;
+    --header-bg: #1c1b18;
+    --header-text: #f5f3ee;
+    --banner-bg: #f0ede8;
+    --banner-border: #d9d5ce;
+    --banner-text: #2d2c28;
+    --contact-bar-bg: #f7f5f1;
+    --contact-bar-text: #5c5b57;
 
     --color-text: var(--text);
     --color-text-body: var(--text-muted);
@@ -21,9 +28,85 @@
     --color-border: var(--border);
     --color-accent: var(--accent);
     --color-tag-bg: var(--tag-bg);
+    --color-header-bg: var(--header-bg);
+    --color-header-text: var(--header-text);
+    --color-banner-bg: var(--banner-bg);
+    --color-banner-text: var(--banner-text);
 }
 html {
     scroll-behavior: smooth;
+}
+
+/* ── Banner (light scheme) ───────────────────────────────────────────────── */
+.banner-content a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+.banner-content a:hover { opacity: 0.8; }
+.banner-content strong { font-weight: 600; }
+.banner-content code {
+    font-family: monospace;
+    font-size: 0.8em;
+    background: rgba(0,0,0,0.06);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+}
+
+/* ── Contact bar link styles ─────────────────────────────────────────────── */
+.contact-bar-content a {
+    color: var(--text-muted);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+.contact-bar-content a:hover { color: var(--text); }
+
+/* ── Header nav link hover underline ─────────────────────────────────────── */
+.nav-link {
+    position: relative;
+    transition: color 0.15s;
+}
+.nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background: var(--header-text);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s cubic-bezier(0.22,1,0.36,1);
+}
+.nav-link:hover::after { transform: scaleX(1); }
+
+/* ── Project cards ───────────────────────────────────────────────────────── */
+.project-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--tag-bg);
+    padding: 1.1rem 1.25rem;
+    cursor: pointer;
+    transition: box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+}
+.project-card:hover {
+    box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    text-decoration: none;
+    color: inherit;
+}
+.project-card:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+/* Mobile: card centred in viewport gets the same treatment as hover */
+.project-card-centred {
+    box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    border-color: var(--accent);
 }
 
 /* ── Watercolour highlight ───────────────────────────────────────────────── */

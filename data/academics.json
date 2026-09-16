@@ -1,26 +1,42 @@
 [
   {
-    "category": "Risk Analysis & Financial Mathematics",
-    "icon": "📊",
-    "description": "Probability theory, stochastic processes, and quantitative risk modelling applied to financial systems. Covers value-at-risk, Monte Carlo simulation, and actuarial methods.",
-    "date": "Fall 2025"
+    "name": "Risk Analysis & Financial Mathematics",
+    "institution": "University of Waterloo",
+    "logo": "/logos/uw_logo.png",
+    "url": "https://uwaterloo.ca/math",
+    "startDate": "Sep 2025",
+    "endDate": null,
+    "description": "Probability theory, stochastic processes, and quantitative risk modelling applied to financial systems. Covers value-at-risk, Monte Carlo simulation, and actuarial risk measures.",
+    "topics": ["Probability", "Stochastic Processes", "Monte Carlo", "VaR", "Actuarial Methods"]
   },
   {
-    "category": "Combinatorial Optimization",
-    "icon": "🔢",
-    "description": "Integer programming, graph algorithms, and NP-hard problem solving. Topics include network flows, matching theory, and approximation algorithms.",
-    "date": "Winter 2026"
+    "name": "Combinatorial Optimization",
+    "institution": "University of Waterloo",
+    "logo": "/logos/uw_logo.png",
+    "url": "https://uwaterloo.ca/math",
+    "startDate": "Jan 2026",
+    "endDate": null,
+    "description": "Integer programming, graph algorithms, and NP-hard problem analysis. Topics include network flows, matching theory, the travelling salesman problem, and approximation algorithms.",
+    "topics": ["Integer Programming", "Graph Algorithms", "Network Flows", "Approximation"]
   },
   {
-    "category": "Computational Mathematics",
-    "icon": "🖥️",
-    "description": "Numerical methods, linear algebra algorithms, and scientific computing. Emphasis on floating-point arithmetic, iterative solvers, and matrix decompositions.",
-    "date": "Fall 2025"
+    "name": "Computational Mathematics",
+    "institution": "University of Waterloo",
+    "logo": "/logos/uw_logo.png",
+    "url": "https://uwaterloo.ca/math",
+    "startDate": "Sep 2025",
+    "endDate": "Dec 2025",
+    "description": "Numerical methods, linear algebra algorithms, and scientific computing. Emphasis on floating-point arithmetic, iterative solvers, and matrix decompositions (LU, QR, SVD).",
+    "topics": ["Numerical Methods", "Linear Algebra", "Iterative Solvers", "SVD", "Python"]
   },
   {
-    "category": "Operations Research",
-    "icon": "⚙️",
-    "description": "Linear programming, the simplex method, duality theory, and decision modelling. Applied to supply chain, scheduling, and resource allocation problems.",
-    "date": "Winter 2026"
+    "name": "Operations Research",
+    "institution": "University of Waterloo",
+    "logo": "/logos/uw_logo.png",
+    "url": "https://uwaterloo.ca/math",
+    "startDate": "Jan 2026",
+    "endDate": "Apr 2026",
+    "description": "Linear programming, the simplex method, duality theory, and decision modelling. Applied to supply chain optimisation, resource allocation, and scheduling problems.",
+    "topics": ["Linear Programming", "Simplex", "Duality", "Scheduling", "Decision Models"]
   }
 ]

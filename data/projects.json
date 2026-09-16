@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "title": "AI Automation Pipeline",
+    "description": "A RAG + GPT pipeline built during my internship at Othership that processed 150K+ customer accounts and projected $12K+ in annual savings.",
+    "url": "https://github.com/YOUR_GITHUB",
+    "githubUrl": "https://github.com/YOUR_GITHUB",
+    "technologies": ["Python", "RAG", "GPT", "TensorFlow", "Google Cloud"]
+  },
+  {
+    "title": "Fintech Coaching App — TKS × Interac",
+    "description": "A Gen-Z financial wellness product designed during the TKS × Interac Innovation Sprint. Built user flows, AI coaching logic, and presented to Interac's innovation leadership.",
+    "url": "https://github.com/YOUR_GITHUB",
+    "githubUrl": null,
+    "technologies": ["Figma", "User Research", "AI Architecture", "Product Design"]
+  },
+  {
+    "title": "Business Automation Suite",
+    "description": "End-to-end automation system built for Jaybird Studios and Lagree West covering customer emails, review workflows, and data pipelines using AI and no-code tooling.",
+    "url": "https://github.com/YOUR_GITHUB",
+    "githubUrl": null,
+    "technologies": ["Python", "Zapier", "Make", "Google Cloud Functions", "Gemini API"]
+  }
+]
