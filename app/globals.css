@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+:root {
+    --bg: #f7f5f0;
+    --text: #2d2c28;
+    --text-muted: #5c5b57;
+    --border: #e4e2dc;
+    --accent: #4a6fa5;
+    --tag-bg: #edecea;
+
+    --color-text: var(--text);
+    --color-text-body: var(--text-muted);
+    --color-accent-line: var(--text-muted);
+    --color-hover-ink: var(--accent);
+}
+
+@theme inline {
+    --color-bg: var(--bg);
+    --color-text: var(--text);
+    --color-text-muted: var(--text-muted);
+    --color-border: var(--border);
+    --color-accent: var(--accent);
+    --color-tag-bg: var(--tag-bg);
+}
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+a {
+    color: var(--accent);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+h1 {
+    font-family: var(--font-lora), serif;
+}
+
+.blog-content {
+    font-size: 1rem;
+    line-height: 1.625;
+    color: color-mix(in srgb, var(--text) 90%, transparent);
+}
+
+.blog-content > * + * {
+    margin-top: 1rem;
+}
+
+@layer components {
+    .blog-content ul {
+        list-style-type: disc;
+        padding-left: 1.5rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .blog-content ol {
+        list-style-type: decimal;
+        padding-left: 1.5rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .blog-content li {
+        margin-top: 0.25rem;
+        margin-bottom: 0.25rem;
+        padding-left: 0.25rem;
+    }
+
+    .blog-content li::marker {
+        color: var(--text-muted);
+    }
+
+    .blog-content blockquote {
+        margin: 1.5rem 0;
+        padding: 1rem 1.5rem;
+        background-color: var(--tag-bg);
+        border-left: 2px solid var(--text-muted);
+        color: var(--text);
+        font-style: italic;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .blog-content h2 {
+        font-family: var(--font-lora), serif;
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-top: 2rem;
+        color: var(--text);
+    }
+
+    .blog-content h3 {
+        font-family: var(--font-lora), serif;
+        font-size: 1.125rem;
+        font-weight: 600;
+        margin-top: 1.5rem;
+        color: var(--text);
+    }
+
+    .blog-content a {
+        color: var(--accent);
+    }
+
+    .blog-content hr {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 2rem 0;
+    }
+
+    .blog-content strong {
+        font-weight: 600;
+        color: var(--text);
+    }
+}

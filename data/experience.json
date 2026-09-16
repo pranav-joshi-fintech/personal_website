@@ -1,0 +1,43 @@
+[
+  {
+    "title": "Software Engineer / AI & Automation Intern",
+    "company": "Othership",
+    "companyUrl": "https://www.othership.us",
+    "companyLogo": "/company_logos/othership.jpg",
+    "location": "Toronto, ON",
+    "startDate": "May 2025",
+    "endDate": "Aug 2025",
+    "summary": "Built AI tools using RAG, GPT, TensorFlow, and Google Cloud that went into production. Projected impact: $12K+ annual savings, 300+ human-hours saved annually, 150K+ accounts processed annually.",
+    "technologies": ["Python", "TensorFlow", "Google Cloud", "RAG", "GPT"]
+  },
+  {
+    "title": "AI Automation Contractor",
+    "company": "Jaybird Studios",
+    "companyLogo": "/company_logos/jaybird.jpg",
+    "location": "Remote",
+    "startDate": "2024",
+    "endDate": null,
+    "summary": "Built business automation systems for a fitness/Pilates startup — automated emails, customer reviews, data workflows, and user registration. Estimated $8K in recurring annual savings for the client.",
+    "technologies": ["Python", "Zapier", "Make", "Google Cloud Functions", "ChatGPT", "Gemini API", "Claude"]
+  },
+  {
+    "title": "AI Automation Contractor",
+    "company": "Lagree West",
+    "companyLogo": "/company_logos/lagrееwest.jpg",
+    "location": "Remote",
+    "startDate": "2024",
+    "endDate": null,
+    "summary": "Built Google Cloud automations leveraging AI, estimated to save approximately $8K in recurring annual costs.",
+    "technologies": ["Google Cloud", "Python", "AI Automation"]
+  },
+  {
+    "title": "Project Manager — Innovation Sprint",
+    "company": "TKS × Interac",
+    "companyLogo": "/company_logos/interac.jpg",
+    "location": "Toronto, ON",
+    "startDate": "2024",
+    "endDate": "2024",
+    "summary": "Led product development of a Gen-Z financial coaching app — market research, user interviews, Figma prototyping, AI architecture. Presented final prototype to Interac innovation leaders at Interac HQ.",
+    "technologies": ["Figma", "User Research", "Product Design", "AI Architecture"]
+  }
+]

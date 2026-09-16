@@ -1,0 +1,30 @@
+{
+  "name": "YOUR_NAME",
+  "role": "Mathematics & Business Student",
+  "description": "Portfolio website — University of Waterloo Mathematics/Business Administration student with experience in AI, automation, and product development.",
+  "headshot": "/headshots/headshot4.png",
+  "intro": [
+    "I study Mathematics and Business Administration at the University of Waterloo, with a focus on mathematical optimization, combinatorics, finance, and computer science.",
+    "I've built and shipped AI/automation tools in production — at Othership I built RAG and GPT-based systems that processed 150K+ accounts and saved $12K+ annually. I've also done contract automation work for startups like Jaybird Studios and Lagree West, and led product development at a TKS × Interac innovation sprint, presenting a Gen-Z financial coaching app to Interac's innovation team.",
+    "Outside of that, I enjoy math competitions, case studies, and exploring problems at the intersection of quantitative reasoning and real-world impact."
+  ],
+  "education": [
+    {
+      "degree": "BMath — Mathematics/Business Administration",
+      "school": "University of Waterloo",
+      "logo": "/logos/uw_logo.png"
+    }
+  ],
+  "navigation": [
+    { "label": "About", "href": "#about" },
+    { "label": "Experience", "href": "#experience" },
+    { "label": "Projects", "href": "#projects" },
+    { "label": "My Posts", "href": "https://linkedin.com/in/YOUR_LINKEDIN", "external": true },
+    { "label": "Resume", "href": "/resume.pdf", "external": true }
+  ],
+  "socials": {
+    "linkedin": "https://linkedin.com/in/YOUR_LINKEDIN",
+    "github": "https://github.com/YOUR_GITHUB",
+    "resume": "/resume.pdf"
+  }
+}
