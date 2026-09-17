@@ -1,131 +1,221 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
-import { FileIcon, GitHubIcon, LinkedInIcon } from "@/app/icons/Icons";
+import { GitHubIcon, LinkedInIcon } from "@/app/icons/Icons";
 import site from "@/data/site.json";
 
-/* ── Inline markdown for contactBar (links only) ────────────────────────── */
-function parseContactBar(text: string): React.ReactNode[] {
-    const PATTERN = /\[([^\]]+)\]\(([^)]+)\)/g;
-    const nodes: React.ReactNode[] = [];
-    let lastIndex = 0;
-    let key = 0;
-    let match: RegExpExecArray | null;
+// Nav items deduplicated: Resume is already in navigation, so icons only show LinkedIn + GitHub
+const SOCIAL_ICONS = [
+    { href: site.socials.linkedin, label: "LinkedIn",  Icon: LinkedInIcon },
+    { href: site.socials.github,   label: "GitHub",    Icon: GitHubIcon   },
+];
 
-    while ((match = PATTERN.exec(text)) !== null) {
-        if (match.index > lastIndex) nodes.push(text.slice(lastIndex, match.index));
-        nodes.push(
-            <a key={key++} href={match[2]} target={match[2].startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="contact-bar-content">
-                {match[1]}
-            </a>
-        );
-        lastIndex = match.index + match[0].length;
-    }
-    if (lastIndex < text.length) nodes.push(text.slice(lastIndex));
-    return nodes;
-}
+// Only anchor tabs get active-section tracking; external links never become "active"
+const NAV_ITEMS = site.navigation;
 
 export default function SiteHeader() {
-    const headerRef = useRef<HTMLElement>(null);
-    const siteWithExtras = site as typeof site & { contactBar?: string };
+    const [collapsed, setCollapsed] = useState(false);
+    const [activeHref, setActiveHref] = useState<string>("");
+    const expandedRef = useRef<HTMLDivElement>(null);
+    const expandedTabRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
+    const collapsedTabRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
+    const expandedNavRef = useRef<HTMLElement>(null);
+    const collapsedNavRef = useRef<HTMLElement>(null);
+
+    // ── Collapse trigger: once the expanded header scrolls out of view ──────
+    useEffect(() => {
+        const expanded = expandedRef.current;
+        if (!expanded) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => setCollapsed(!entry.isIntersecting),
+            { threshold: 0, rootMargin: "0px 0px 0px 0px" }
+        );
+        observer.observe(expanded);
+        return () => observer.disconnect();
+    }, []);
+
+    // ── Active section tracking via IntersectionObserver ────────────────────
+    useEffect(() => {
+        const anchors = NAV_ITEMS.filter((n) => !n.external && n.href.startsWith("#"));
+        if (anchors.length === 0) return;
+
+        const visible = new Set<string>();
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((e) => {
+                    const href = `#${e.target.id}`;
+                    if (e.isIntersecting) visible.add(href);
+                    else visible.delete(href);
+                });
+                const next = anchors.find((a) => visible.has(a.href));
+                if (next) setActiveHref(next.href);
+            },
+            { threshold: 0.2 }
+        );
+
+        anchors.forEach(({ href }) => {
+            const el = document.querySelector(href);
+            if (el) observer.observe(el);
+        });
+
+        return () => observer.disconnect();
+    }, []);
+
+    // ── Auto-scroll active tab into view within its nav container ───────────
+    useEffect(() => {
+        if (!activeHref) return;
+        const pairs: [Map<string, HTMLAnchorElement>, HTMLElement | null][] = [
+            [expandedTabRefs.current, expandedNavRef.current],
+            [collapsedTabRefs.current, collapsedNavRef.current],
+        ];
+        pairs.forEach(([tabMap, nav]) => {
+            if (!nav) return;
+            const tab = tabMap.get(activeHref);
+            if (!tab) return;
+            // Scroll the nav container so the tab is centred within it
+            const navLeft = nav.getBoundingClientRect().left;
+            const tabLeft = tab.getBoundingClientRect().left;
+            const offset = tabLeft - navLeft - nav.clientWidth / 2 + tab.offsetWidth / 2;
+            nav.scrollBy({ left: offset, behavior: "smooth" });
+        });
+    }, [activeHref]);
+
+    const siteWithExtras = site as typeof site & {
+        contactBar?: { visible: boolean; text: string };
+        contactBar2?: { visible: boolean; text: string };
+    };
+    const contactBarText = siteWithExtras.contactBar?.visible ? siteWithExtras.contactBar.text : null;
 
     return (
-        <header
-            ref={headerRef}
-            className="w-full bg-header-bg text-header-text sticky top-0 z-50 border-b border-border"
-        >
-            <div className="max-w-5xl mx-auto px-6 md:px-12 pt-3 pb-4 sm:pb-1 flex items-center gap-4">
-                {/* Avatar — larger, vertically centred */}
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden ring-2 ring-border shrink-0">
-                    <Image
-                        src={site.headshot}
-                        alt={site.name}
-                        width={80}
-                        height={80}
-                        className="object-cover w-full h-full"
-                    />
-                </div>
+        <>
+            {/* ── EXPANDED HEADER (visible at top of page) ───────────────── */}
+            <header className="w-full bg-header-bg border-b border-border">
+                {/* Sentinel: when this div leaves the viewport, collapsed bar appears */}
+                <div ref={expandedRef} aria-hidden="true" />
 
-                {/* Right column: name + role + contact bar + icons */}
-                <div className="flex-1 min-w-0 flex flex-col gap-0.5">
-                    {/* Top line: name — icons alongside on desktop, separate row on mobile */}
-                    <div className="flex items-center justify-between gap-4">
-                        <h1
-                            className="text-base font-semibold leading-tight text-header-text"
-                            style={{ fontFamily: "var(--font-lora), serif" }}
-                        >
-                            {site.name}
-                        </h1>
-                        {/* Icons — desktop only here, mobile gets its own row below */}
-                        <div className="hidden sm:flex items-center gap-4 shrink-0">
-                            <Link href={site.socials.resume} target="_blank" aria-label="Resume">
-                                <FileIcon className="w-4 h-4 text-text-muted hover:text-text transition-colors" />
-                            </Link>
-                            <Link href={site.socials.linkedin} target="_blank" aria-label="LinkedIn">
-                                <LinkedInIcon className="w-4 h-4 text-text-muted hover:text-text transition-colors" />
-                            </Link>
-                            <Link href={site.socials.github} target="_blank" aria-label="GitHub">
-                                <GitHubIcon className="w-4 h-4 text-text-muted hover:text-text transition-colors" />
-                            </Link>
+                <div className="max-w-5xl mx-auto px-6 md:px-12 pt-4 pb-3 flex items-start gap-5">
+                    {/* Large avatar */}
+                    <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden ring-2 ring-border shrink-0 mt-0.5">
+                        <Image
+                            src={site.headshot}
+                            alt={site.name}
+                            width={80}
+                            height={80}
+                            className="object-cover w-full h-full"
+                        />
+                    </div>
+
+                    {/* Identity column */}
+                    <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-4">
+                            <div>
+                                <h1
+                                    className="text-base font-semibold leading-tight"
+                                    style={{ fontFamily: "var(--font-lora), serif", color: "var(--header-text)" }}
+                                >
+                                    {site.name}
+                                </h1>
+                                <p className="text-xs leading-snug mt-0.5" style={{ color: "var(--text-muted)" }}>
+                                    {site.role}
+                                </p>
+                                {/* Contact bar — hidden on very small screens */}
+                                {contactBarText && (
+                                    <p className="hidden xs:block text-xs leading-snug mt-0.5 contact-bar-content" style={{ color: "var(--text-muted)" }}>
+                                        {contactBarText.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")}
+                                    </p>
+                                )}
+                            </div>
+
+                            {/* Social icons */}
+                            <div className="flex items-center gap-3 shrink-0 pt-0.5">
+                                {SOCIAL_ICONS.map(({ href, label, Icon }) => (
+                                    <Link key={href} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
+                                        <Icon className="w-4 h-4 transition-colors" style={{ color: "var(--text-muted)" }}
+                                            onMouseEnter={(e: React.MouseEvent<SVGSVGElement>) => (e.currentTarget.style.color = "var(--text)")}
+                                            onMouseLeave={(e: React.MouseEvent<SVGSVGElement>) => (e.currentTarget.style.color = "var(--text-muted)")}
+                                        />
+                                    </Link>
+                                ))}
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Role */}
-                    <p className="text-xs leading-snug" style={{ color: "var(--text-muted)" }}>
-                        {site.role}
-                    </p>
-
-                    {/* Contact bar — inline on sm+, separate row on xs, hidden below xs */}
-                    {siteWithExtras.contactBar && (
-                        <p className="hidden sm:block text-xs leading-snug contact-bar-content" style={{ color: "var(--text-muted)" }}>
-                            {parseContactBar(siteWithExtras.contactBar)}
-                        </p>
-                    )}
-
-                    {/* Icons — mobile only, own dedicated row */}
-                    <div className="flex sm:hidden items-center gap-4 pt-1">
-                        <Link href={site.socials.resume} target="_blank" aria-label="Resume">
-                            <FileIcon className="w-4 h-4 text-text-muted hover:text-text transition-colors" />
-                        </Link>
-                        <Link href={site.socials.linkedin} target="_blank" aria-label="LinkedIn">
-                            <LinkedInIcon className="w-4 h-4 text-text-muted hover:text-text transition-colors" />
-                        </Link>
-                        <Link href={site.socials.github} target="_blank" aria-label="GitHub">
-                            <GitHubIcon className="w-4 h-4 text-text-muted hover:text-text transition-colors" />
-                        </Link>
+                        {/* Nav tabs — full row, swipeable on mobile */}
+                        <nav ref={expandedNavRef} className="mt-2 flex items-center gap-x-0.5 overflow-x-auto no-scrollbar" aria-label="Site navigation">
+                            {NAV_ITEMS.map(({ label, href, external }) => (
+                                <Link
+                                    key={href}
+                                    href={href}
+                                    target={external ? "_blank" : undefined}
+                                    rel={external ? "noopener noreferrer" : undefined}
+                                    ref={(el) => { if (el) expandedTabRefs.current.set(href, el); }}
+                                    className={`nav-tab shrink-0${activeHref === href ? " nav-tab-active" : ""}`}
+                                >
+                                    {label}
+                                </Link>
+                            ))}
+                        </nav>
                     </div>
                 </div>
-            </div>
+            </header>
 
-            {/* Contact bar row — xs only (400px–639px) */}
-            {siteWithExtras.contactBar && (
-                <div className="hidden xs:block sm:hidden max-w-5xl mx-auto px-6 pb-2">
-                    <p className="text-xs leading-snug contact-bar-content" style={{ color: "var(--text-muted)" }}>
-                        {parseContactBar(siteWithExtras.contactBar)}
-                    </p>
+            {/* ── COLLAPSED FLOATING BAR (appears once expanded header leaves view) ── */}
+            <div
+                className={`floating-bar${collapsed ? " floating-bar-visible" : ""}`}
+                role="banner"
+                aria-label="Compact navigation"
+            >
+                {/* Mini avatar + name */}
+                <div className="flex items-center gap-2 shrink-0">
+                    <div className="w-7 h-7 rounded-full overflow-hidden ring-1 shrink-0" style={{ ringColor: "var(--border)" }}>
+                        <Image
+                            src={site.headshot}
+                            alt={site.name}
+                            width={28}
+                            height={28}
+                            className="object-cover w-full h-full"
+                        />
+                    </div>
+                    <span className="text-sm font-semibold hidden sm:block" style={{ fontFamily: "var(--font-lora), serif", color: "var(--header-text)" }}>
+                        {site.name.split(" ")[0]}
+                    </span>
                 </div>
-            )}
 
-            {/* ── Nav strip — hidden on small screens ──────────────────── */}
-            <div className="hidden sm:block max-w-5xl mx-auto px-6 md:px-12 pb-2">
-                <nav className="flex flex-wrap items-center gap-x-1">
-                    {site.navigation.map(({ label, href, external }) => (
+                {/* Divider */}
+                <div className="w-px h-4 shrink-0" style={{ background: "var(--border)" }} />
+
+                {/* Nav tabs — swipeable */}
+                <nav ref={collapsedNavRef} className="flex items-center gap-x-0.5 overflow-x-auto no-scrollbar min-w-0" aria-label="Site navigation">
+                    {NAV_ITEMS.map(({ label, href, external }) => (
                         <Link
                             key={href}
                             href={href}
                             target={external ? "_blank" : undefined}
                             rel={external ? "noopener noreferrer" : undefined}
-                            className="nav-link text-sm px-3 py-1.5 no-underline hover:no-underline"
-                            style={{ color: "#3670ae" }}
+                            ref={(el) => { if (el) collapsedTabRefs.current.set(href, el); }}
+                            className={`nav-tab shrink-0${activeHref === href ? " nav-tab-active" : ""}`}
                         >
                             {label}
                         </Link>
                     ))}
                 </nav>
+
+                {/* Social icons */}
+                <div className="flex items-center gap-3 shrink-0 ml-auto pl-1">
+                    {SOCIAL_ICONS.map(({ href, label, Icon }) => (
+                        <Link key={href} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
+                            <Icon className="w-3.5 h-3.5 transition-colors" style={{ color: "var(--text-muted)" }}
+                                onMouseEnter={(e: React.MouseEvent<SVGSVGElement>) => (e.currentTarget.style.color = "var(--text)")}
+                                onMouseLeave={(e: React.MouseEvent<SVGSVGElement>) => (e.currentTarget.style.color = "var(--text-muted)")}
+                            />
+                        </Link>
+                    ))}
+                </div>
             </div>
-        </header>
+        </>
     );
 }

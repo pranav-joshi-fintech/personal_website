@@ -7,7 +7,14 @@
     "visible": true,
     "text": "**Open to Summer 2026 internships** — AI, quant, fintech, or product. [Reach out →](mailto:your@email.com)"
   },
-  "contactBar": "joshipn2018@gmail.com · p42joshi@uwaterloo.ca · [linkedin.com/in/pranav-joshi-fintech](https://linkedin.com/in/pranav-joshi-fintech)",
+  "contactBar": {
+    "visible": false,
+    "text": "joshipn2018@gmail.com · p42joshi@uwaterloo.ca · [linkedin.com/in/pranav-joshi-fintech](https://linkedin.com/in/pranav-joshi-fintech)"
+  },
+  "contactBar2": {
+    "visible": true,
+    "text": "joshipn2018@gmail.com · p42joshi@uwaterloo.ca · [linkedin.com/in/pranav-joshi-fintech](https://linkedin.com/in/pranav-joshi-fintech)"
+  },
   "footer": "Thank you for reading my website. If you want to connect, feel free to reach out!",
   "intro": [
     "I study [Mathematics and Business Administration](yellow) at the University of Waterloo, with a focus on [mathematical optimization](blue), combinatorics, finance, and computer science.",
