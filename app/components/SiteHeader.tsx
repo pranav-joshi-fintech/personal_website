@@ -7,11 +7,9 @@ import React from "react";
 import { FileIcon, GitHubIcon, LinkedInIcon } from "@/app/icons/Icons";
 import site from "@/data/site.json";
 
-const ICON_COLOR = "#6b7280"; // gray-500 — matches the rest of the muted palette
-const ICON_HOVER = "#111827"; // gray-900
-
 const PILL_MAX_W = 700;
 const PILL_H     = 44;
+const BANNER_CLOSE_MS = 500;
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const ease = (t: number) =>
@@ -45,8 +43,10 @@ export default function SiteHeader() {
     const [atBottom, setAtBottom]     = useState(false);
     const [expandedHeight, setExpandedHeight] = useState(0);
     const [bannerDismissed, setBannerDismissed] = useState(false);
+    const [bannerClosing, setBannerClosing] = useState(false);
 
     const headerRef        = useRef<HTMLElement>(null);
+    const expandedContentRef = useRef<HTMLDivElement>(null);
     const expandedTabRefs  = useRef<Map<string, HTMLAnchorElement>>(new Map());
     const collapsedTabRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
     const expandedNavRef   = useRef<HTMLElement>(null);
@@ -55,13 +55,19 @@ export default function SiteHeader() {
     // ── Measure expanded height ──────────────────────────────────────────────
     useEffect(() => {
         const measure = () => {
-            if (headerRef.current) setExpandedHeight(headerRef.current.offsetHeight);
+            if (expandedContentRef.current) {
+                setExpandedHeight(expandedContentRef.current.scrollHeight);
+            }
         };
-        // Measure at p=0 (before any scroll)
         measure();
+        const observer = new ResizeObserver(measure);
+        if (expandedContentRef.current) observer.observe(expandedContentRef.current);
         window.addEventListener("resize", measure);
-        return () => window.removeEventListener("resize", measure);
-    }, [bannerDismissed]); // re-measure if banner dismissal changes height
+        return () => {
+            observer.disconnect();
+            window.removeEventListener("resize", measure);
+        };
+    }, []);
 
     // ── Scroll progress + bottom detection ──────────────────────────────────
     useEffect(() => {
@@ -167,9 +173,12 @@ export default function SiteHeader() {
 
     return (
         <>
-            {/* Sticky placeholder — reserves expanded height in document flow */}
+            {/* Sticky placeholder — follows the animated header height in document flow. */}
             <div
-                style={{ height: expandedHeight || undefined }}
+                style={{
+                    height: expandedHeight || undefined,
+                    transition: bannerClosing ? `height ${BANNER_CLOSE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)` : undefined,
+                }}
                 className="sticky top-0 z-50 w-full pointer-events-none"
                 aria-hidden="true"
             />
@@ -196,10 +205,14 @@ export default function SiteHeader() {
                         ? `0 4px 24px rgba(0,0,0,${0.10 * shadow}), 0 1px 4px rgba(0,0,0,${0.06 * shadow})`
                         : undefined,
                     overflow: "hidden",
+                    transition: bannerClosing
+                        ? `height ${BANNER_CLOSE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`
+                        : undefined,
                 }}
             >
                 {/* ── EXPANDED content ───────────────────────────────────── */}
                 <div
+                    ref={expandedContentRef}
                     style={{
                         opacity: expandedOpacity,
                         pointerEvents: p > 0.45 ? "none" : "auto",
@@ -208,13 +221,31 @@ export default function SiteHeader() {
                 >
                     {/* Banner — inside expanded, hides as header morphs */}
                     {banner?.visible && !bannerDismissed && (
-                        <div className="w-full border-b" style={{ background: "var(--banner-bg)", borderColor: "var(--banner-border)" }}>
+                        <div
+                            className="w-full border-b"
+                            style={{
+                                background: "var(--banner-bg)",
+                                borderColor: "var(--banner-border)",
+                                maxHeight: bannerClosing ? 0 : 100,
+                                opacity: bannerClosing ? 0 : 1,
+                                overflow: "hidden",
+                                transform: bannerClosing ? "translateX(-100%)" : "translateX(0)",
+                                transition: `max-height ${BANNER_CLOSE_MS}ms cubic-bezier(0.22, 1, 0.36, 1), opacity ${BANNER_CLOSE_MS}ms ease-out, transform ${BANNER_CLOSE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`,
+                            }}
+                        >
                             <div className="max-w-5xl mx-auto px-6 md:px-12 py-2 flex items-center gap-3">
                                 <p className="flex-1 text-sm text-center leading-snug banner-content" style={{ color: "var(--banner-text)" }}>
                                     {parseInlineMarkdown(banner.text)}
                                 </p>
                                 <button
-                                    onClick={() => setBannerDismissed(true)}
+                                    onClick={() => {
+                                        if (bannerClosing) return;
+                                        setBannerClosing(true);
+                                        window.setTimeout(() => {
+                                            setBannerDismissed(true);
+                                            setBannerClosing(false);
+                                        }, BANNER_CLOSE_MS);
+                                    }}
                                     aria-label="Dismiss banner"
                                     className="shrink-0 rounded p-0.5 transition-opacity opacity-50 hover:opacity-100"
                                     style={{ color: "var(--banner-text)" }}
@@ -246,10 +277,7 @@ export default function SiteHeader() {
                                 <div className="flex items-center gap-3 shrink-0 pt-0.5">
                                     {ICONS.map(({ href, label, Icon }) => (
                                         <Link key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
-                                            <Icon className="w-4 h-4 transition-colors" style={{ color: ICON_COLOR }}
-                                                onMouseEnter={(e: React.MouseEvent<SVGSVGElement>) => (e.currentTarget.style.color = ICON_HOVER)}
-                                                onMouseLeave={(e: React.MouseEvent<SVGSVGElement>) => (e.currentTarget.style.color = ICON_COLOR)}
-                                            />
+                                            <Icon className="w-4 h-4 text-gray-700 hover:text-gray-600 transition-colors" />
                                         </Link>
                                     ))}
                                 </div>
@@ -305,10 +333,7 @@ export default function SiteHeader() {
                     <div className="flex items-center gap-3 shrink-0 ml-auto pl-1">
                         {ICONS.map(({ href, label, Icon }) => (
                             <Link key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
-                                <Icon className="w-3.5 h-3.5 transition-colors" style={{ color: ICON_COLOR }}
-                                    onMouseEnter={(e: React.MouseEvent<SVGSVGElement>) => (e.currentTarget.style.color = ICON_HOVER)}
-                                    onMouseLeave={(e: React.MouseEvent<SVGSVGElement>) => (e.currentTarget.style.color = ICON_COLOR)}
-                                />
+                                <Icon className="w-3.5 h-3.5 text-gray-700 hover:text-gray-600 transition-colors" />
                             </Link>
                         ))}
                     </div>

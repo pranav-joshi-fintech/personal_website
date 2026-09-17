@@ -48,7 +48,7 @@ function ProjectCard({ project }: { project: Project }) {
                 {project.githubUrl && (
                     <span
                         onClick={(e) => { e.preventDefault(); window.open(project.githubUrl!, "_blank"); }}
-                        className="shrink-0 text-text-muted hover:text-accent transition-colors cursor-pointer"
+                        className="shrink-0 text-gray-700 hover:text-gray-600 transition-colors cursor-pointer"
                         aria-label="View on GitHub"
                     >
                         <GitHubIcon className="w-4 h-4" />

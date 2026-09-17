@@ -16,17 +16,17 @@ export default function MobileNav() {
 
             <div className="flex items-center gap-5">
                 <Link href={site.socials.resume} target="_blank" aria-label="Resume">
-                    <FileIcon className="w-5 h-5 text-text-muted hover:text-accent transition-colors" />
+                    <FileIcon className="w-5 h-5 text-gray-700 hover:text-gray-600 transition-colors" />
                 </Link>
                 <Link
                     href={site.socials.linkedin}
                     target="_blank"
                     aria-label="LinkedIn"
                 >
-                    <LinkedInIcon className="w-5 h-5 text-text-muted hover:text-accent transition-colors" />
+                    <LinkedInIcon className="w-5 h-5 text-gray-700 hover:text-gray-600 transition-colors" />
                 </Link>
                 <Link href={site.socials.github} target="_blank" aria-label="GitHub">
-                    <GitHubIcon className="w-5 h-5 text-text-muted hover:text-accent transition-colors" />
+                    <GitHubIcon className="w-5 h-5 text-gray-700 hover:text-gray-600 transition-colors" />
                 </Link>
             </div>
         </header>
