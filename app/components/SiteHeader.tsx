@@ -17,25 +17,27 @@ const SOCIAL_ICONS = [
 const NAV_ITEMS = site.navigation;
 
 export default function SiteHeader() {
-    const [collapsed, setCollapsed] = useState(false);
+    // progress: 0 = fully expanded, 1 = fully collapsed/pill
+    const [progress, setProgress] = useState(0);
     const [activeHref, setActiveHref] = useState<string>("");
-    const expandedRef = useRef<HTMLDivElement>(null);
+    const headerRef = useRef<HTMLElement>(null);
     const expandedTabRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
     const collapsedTabRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
     const expandedNavRef = useRef<HTMLElement>(null);
     const collapsedNavRef = useRef<HTMLElement>(null);
 
-    // ── Collapse trigger: once the expanded header scrolls out of view ──────
+    // ── Scroll-driven transition ─────────────────────────────────────────────
     useEffect(() => {
-        const expanded = expandedRef.current;
-        if (!expanded) return;
-
-        const observer = new IntersectionObserver(
-            ([entry]) => setCollapsed(!entry.isIntersecting),
-            { threshold: 0, rootMargin: "0px 0px 0px 0px" }
-        );
-        observer.observe(expanded);
-        return () => observer.disconnect();
+        const onScroll = () => {
+            const headerHeight = headerRef.current?.offsetHeight ?? 120;
+            // Transition happens over the first full header height of scroll
+            const p = Math.min(Math.max(window.scrollY / headerHeight, 0), 1);
+            setProgress(p);
+        };
+        window.addEventListener("scroll", onScroll, { passive: true });
+        // Run once on mount in case page loads mid-scroll
+        onScroll();
+        return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
     // ── Active section tracking via IntersectionObserver ────────────────────
@@ -93,11 +95,16 @@ export default function SiteHeader() {
 
     return (
         <>
-            {/* ── EXPANDED HEADER (visible at top of page) ───────────────── */}
-            <header className="w-full bg-header-bg border-b border-border">
-                {/* Sentinel: when this div leaves the viewport, collapsed bar appears */}
-                <div ref={expandedRef} aria-hidden="true" />
-
+            {/* ── EXPANDED HEADER ─────────────────────────────────────────── */}
+            <header
+                ref={headerRef}
+                className="w-full bg-header-bg border-b border-border sticky top-0 z-40 will-change-transform"
+                style={{
+                    transform: `translateY(-${progress * 100}%)`,
+                    opacity: 1 - progress * 1.5,   // fades out faster than it slides
+                    pointerEvents: progress > 0.8 ? "none" : "auto",
+                }}
+            >
                 <div className="max-w-5xl mx-auto px-6 md:px-12 pt-4 pb-3 flex items-start gap-5">
                     {/* Large avatar */}
                     <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden ring-2 ring-border shrink-0 mt-0.5">
@@ -163,11 +170,16 @@ export default function SiteHeader() {
                 </div>
             </header>
 
-            {/* ── COLLAPSED FLOATING BAR (appears once expanded header leaves view) ── */}
+            {/* ── COLLAPSED FLOATING BAR ──────────────────────────────────── */}
             <div
-                className={`floating-bar${collapsed ? " floating-bar-visible" : ""}`}
+                className="floating-bar"
                 role="banner"
                 aria-label="Compact navigation"
+                style={{
+                    opacity: progress,
+                    transform: `translateX(-50%) translateY(${(1 - progress) * -16}px)`,
+                    pointerEvents: progress < 0.2 ? "none" : "auto",
+                }}
             >
                 {/* Mini avatar + name */}
                 <div className="flex items-center gap-2 shrink-0">
