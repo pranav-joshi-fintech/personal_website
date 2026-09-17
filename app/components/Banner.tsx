@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import site from "@/data/site.json";
 
 function parseInlineMarkdown(text: string): React.ReactNode[] {
@@ -30,14 +32,27 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
 
 export default function Banner() {
     const { banner } = site as typeof site & { banner?: { visible: boolean; text: string } };
-    if (!banner?.visible) return null;
+    const [dismissed, setDismissed] = useState(false);
+
+    if (!banner?.visible || dismissed) return null;
 
     return (
         <div className="w-full border-b" style={{ background: "var(--banner-bg)", borderColor: "var(--banner-border)" }}>
-            <div className="max-w-5xl mx-auto px-6 md:px-12 py-2 flex items-center justify-center">
-                <p className="text-sm text-center leading-snug banner-content" style={{ color: "var(--banner-text)" }}>
+            <div className="max-w-5xl mx-auto px-6 md:px-12 py-2 flex items-center gap-3">
+                <p className="flex-1 text-sm text-center leading-snug banner-content" style={{ color: "var(--banner-text)" }}>
                     {parseInlineMarkdown(banner.text)}
                 </p>
+                <button
+                    onClick={() => setDismissed(true)}
+                    aria-label="Dismiss banner"
+                    className="shrink-0 rounded p-0.5 transition-opacity opacity-50 hover:opacity-100"
+                    style={{ color: "var(--banner-text)" }}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
             </div>
         </div>
     );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
@@ -29,47 +29,18 @@ function parseContactBar(text: string): React.ReactNode[] {
 }
 
 export default function SiteHeader() {
-    const [visible, setVisible] = useState(true);
-    const lastScrollY = useRef(0);
-    const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-    useEffect(() => {
-        const resetTimer = () => {
-            if (hideTimer.current) clearTimeout(hideTimer.current);
-            hideTimer.current = setTimeout(() => setVisible(false), 3000);
-        };
-
-        const onScroll = () => {
-            const y = window.scrollY;
-            const goingUp = y < lastScrollY.current;
-
-            if (y < 50 || goingUp) {
-                setVisible(true);
-                resetTimer();
-            } else {
-                setVisible(false);
-                if (hideTimer.current) clearTimeout(hideTimer.current);
-            }
-            lastScrollY.current = y;
-        };
-
-        window.addEventListener("scroll", onScroll, { passive: true });
-        return () => {
-            window.removeEventListener("scroll", onScroll);
-            if (hideTimer.current) clearTimeout(hideTimer.current);
-        };
-    }, []);
-
+    const headerRef = useRef<HTMLElement>(null);
     const siteWithExtras = site as typeof site & { contactBar?: string };
 
     return (
         <header
-            className="w-full bg-header-bg text-header-text sticky top-0 z-50 transition-transform duration-300"
-            style={{ transform: visible ? "translateY(0)" : "translateY(-100%)" }}
+            ref={headerRef}
+            className="w-full bg-header-bg text-header-text sticky top-0 z-50 border-b border-border"
         >
             {/* ── Identity row ─────────────────────────────────────────── */}
-            <div className="max-w-5xl mx-auto px-6 md:px-12 py-4 flex items-center gap-5">
-                <div className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-white/20 shrink-0">
+            <div className="max-w-5xl mx-auto px-6 md:px-12 pt-3 pb-4 sm:pb-1 flex items-center gap-5">
+                {/* Avatar */}
+                <div className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-border shrink-0">
                     <Image
                         src={site.headshot}
                         alt={site.name}
@@ -79,6 +50,7 @@ export default function SiteHeader() {
                     />
                 </div>
 
+                {/* Name / role — contact bar inline on sm+ */}
                 <div className="flex-1 min-w-0">
                     <h1
                         className="text-base font-semibold leading-tight text-header-text"
@@ -86,50 +58,57 @@ export default function SiteHeader() {
                     >
                         {site.name}
                     </h1>
-                    <p className="text-xs leading-tight" style={{ color: "rgba(245,243,238,0.5)" }}>{site.role}</p>
+                    <p className="text-xs leading-snug" style={{ color: "var(--text-muted)" }}>
+                        {site.role}
+                    </p>
+                    {/* Inline contact bar — visible only on sm and above */}
+                    {siteWithExtras.contactBar && (
+                        <p className="hidden sm:block text-xs leading-snug contact-bar-content mt-0.5" style={{ color: "var(--text-muted)" }}>
+                            {parseContactBar(siteWithExtras.contactBar)}
+                        </p>
+                    )}
                 </div>
 
+                {/* Social icons */}
                 <div className="flex items-center gap-4 shrink-0">
                     <Link href={site.socials.resume} target="_blank" aria-label="Resume">
-                        <FileIcon className="w-4 h-4 text-white/40 hover:text-white/90 transition-colors" />
+                        <FileIcon className="w-4 h-4 text-text-muted hover:text-text transition-colors" />
                     </Link>
                     <Link href={site.socials.linkedin} target="_blank" aria-label="LinkedIn">
-                        <LinkedInIcon className="w-4 h-4 text-white/40 hover:text-white/90 transition-colors" />
+                        <LinkedInIcon className="w-4 h-4 text-text-muted hover:text-text transition-colors" />
                     </Link>
                     <Link href={site.socials.github} target="_blank" aria-label="GitHub">
-                        <GitHubIcon className="w-4 h-4 text-white/40 hover:text-white/90 transition-colors" />
+                        <GitHubIcon className="w-4 h-4 text-text-muted hover:text-text transition-colors" />
                     </Link>
                 </div>
             </div>
 
-            {/* ── Nav strip ────────────────────────────────────────────── */}
-            <div className="border-t border-white/10">
-                <nav className="max-w-5xl mx-auto px-6 md:px-12 flex items-center gap-1 overflow-x-auto">
+            {/* Contact bar row — only on screens between xs and sm (below 640px but above ~400px) */}
+            {siteWithExtras.contactBar && (
+                <div className="hidden xs:block sm:hidden max-w-5xl mx-auto px-6 pb-1">
+                    <p className="text-xs leading-snug contact-bar-content" style={{ color: "var(--text-muted)" }}>
+                        {parseContactBar(siteWithExtras.contactBar)}
+                    </p>
+                </div>
+            )}
+
+            {/* ── Nav strip — hidden on small screens ──────────────────── */}
+            <div className="hidden sm:block max-w-5xl mx-auto px-6 md:px-12 pb-2">
+                <nav className="flex flex-wrap items-center gap-x-1">
                     {site.navigation.map(({ label, href, external }) => (
                         <Link
                             key={href}
                             href={href}
                             target={external ? "_blank" : undefined}
                             rel={external ? "noopener noreferrer" : undefined}
-                            className="nav-link shrink-0 text-sm px-3 py-2.5 no-underline hover:no-underline"
-                            style={{ color: "rgba(245,243,238,0.6)" }}
+                            className="nav-link text-sm px-3 py-1.5 no-underline hover:no-underline"
+                            style={{ color: "#3670ae" }}
                         >
                             {label}
                         </Link>
                     ))}
                 </nav>
             </div>
-
-            {/* ── Contact bar (resume-style) ────────────────────────────── */}
-            {siteWithExtras.contactBar && (
-                <div className="border-t border-white/10">
-                    <div className="max-w-5xl mx-auto px-6 md:px-12 py-1.5 flex items-center justify-center">
-                        <p className="text-xs text-center contact-bar-content" style={{ color: "rgba(245,243,238,0.45)" }}>
-                            {parseContactBar(siteWithExtras.contactBar)}
-                        </p>
-                    </div>
-                </div>
-            )}
         </header>
     );
 }

@@ -7,11 +7,11 @@
     --border: #e4e2dc;
     --accent: #2563eb;
     --tag-bg: #f0ede8;
-    --header-bg: #1c1b18;
-    --header-text: #f5f3ee;
-    --banner-bg: #f0ede8;
-    --banner-border: #d9d5ce;
-    --banner-text: #2d2c28;
+    --header-bg: #ffffff;
+    --header-text: #1c1b18;
+    --banner-bg: #bfe0bc;
+    --banner-border: #8db87a;
+    --banner-text: #163d14;
     --contact-bar-bg: #f7f5f1;
     --contact-bar-text: #5c5b57;
 
@@ -32,6 +32,8 @@
     --color-header-text: var(--header-text);
     --color-banner-bg: var(--banner-bg);
     --color-banner-text: var(--banner-text);
+    /* xs breakpoint — phones wider than 400px get the contact bar row */
+    --breakpoint-xs: 400px;
 }
 html {
     scroll-behavior: smooth;
@@ -61,24 +63,11 @@ html {
 }
 .contact-bar-content a:hover { color: var(--text); }
 
-/* ── Header nav link hover underline ─────────────────────────────────────── */
+/* ── Header nav link hover ───────────────────────────────────────────────── */
 .nav-link {
-    position: relative;
     transition: color 0.15s;
 }
-.nav-link::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1.5px;
-    background: var(--header-text);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.2s cubic-bezier(0.22,1,0.36,1);
-}
-.nav-link:hover::after { transform: scaleX(1); }
+.nav-link:hover { color: #2068c4 !important; }
 
 /* ── Project cards ───────────────────────────────────────────────────────── */
 .project-card {

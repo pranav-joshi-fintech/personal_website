@@ -38,7 +38,7 @@ export default function RootLayout({
             >
                 <Banner />
                 <SiteHeader />
-                <div className="max-w-5xl mx-auto px-6 md:px-12 py-12 md:py-16">
+                <div className="max-w-5xl mx-auto px-6 md:px-12 py-6 md:py-8">
                     {children}
                 </div>
                 <Footer />
