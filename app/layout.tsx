@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { DM_Sans, Lora } from "next/font/google";
-import Banner from "@/app/components/Banner";
 import SiteHeader from "@/app/components/SiteHeader";
 import Footer from "@/app/components/Footer";
 import "./globals.css";
@@ -36,7 +35,6 @@ export default function RootLayout({
                 className="min-h-full"
                 style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
             >
-                <Banner />
                 <SiteHeader />
                 <div className="max-w-5xl mx-auto px-6 md:px-12 py-6 md:py-8">
                     {children}

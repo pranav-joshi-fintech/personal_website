@@ -29,12 +29,12 @@
     }
   ],
   "navigation": [
-    { "label": "About", "href": "#about" },
-    { "label": "Experience", "href": "#experience" },
-    { "label": "Academics", "href": "#academics" },
-    { "label": "Projects", "href": "#projects" },
-    { "label": "My Posts", "href": "https://linkedin.com/in/pranav-joshi-fintech", "external": true },
-    { "label": "Resume", "href": "/resume.pdf", "external": true }
+    { "label": "About", "href": "#about", "visible": true },
+    { "label": "Experience", "href": "#experience", "visible": true },
+    { "label": "Academics", "href": "#academics", "visible": true },
+    { "label": "Projects", "href": "#projects", "visible": true },
+    { "label": "My Posts", "href": "https://linkedin.com/in/pranav-joshi-fintech", "external": true, "visible": false },
+    { "label": "Resume", "href": "/resume.pdf", "external": true, "visible": true }
   ],
   "socials": {
     "linkedin": "https://linkedin.com/in/pranav-joshi-fintech",

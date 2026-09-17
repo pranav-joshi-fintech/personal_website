@@ -7,60 +7,90 @@ import React from "react";
 import { FileIcon, GitHubIcon, LinkedInIcon } from "@/app/icons/Icons";
 import site from "@/data/site.json";
 
-const ICON_COLOR = "#9ca3af"; // soft grey (tailwind gray-400)
-const ICON_HOVER = "#374151"; // gray-700
+const ICON_COLOR = "#6b7280"; // gray-500 — matches the rest of the muted palette
+const ICON_HOVER = "#111827"; // gray-900
+
+const PILL_MAX_W = 700;
+const PILL_H     = 44;
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const ease = (t: number) =>
     t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 
+// Only nav items with visible !== false are shown
+const NAV_ITEMS = (site.navigation as (typeof site.navigation[number] & { visible?: boolean })[])
+    .filter((n) => n.visible !== false);
+
+type BannerData = { visible: boolean; text: string };
+
+function parseInlineMarkdown(text: string): React.ReactNode[] {
+    const PATTERN = /\*\*(.+?)\*\*|\[([^\]]+)\]\(([^)]+)\)|`([^`]+)`/g;
+    const nodes: React.ReactNode[] = [];
+    let lastIndex = 0, key = 0;
+    let match: RegExpExecArray | null;
+    while ((match = PATTERN.exec(text)) !== null) {
+        if (match.index > lastIndex) nodes.push(text.slice(lastIndex, match.index));
+        if (match[1])      nodes.push(<strong key={key++}>{match[1]}</strong>);
+        else if (match[2]) nodes.push(<a key={key++} href={match[3]} target={match[3].startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer">{match[2]}</a>);
+        else if (match[4]) nodes.push(<code key={key++}>{match[4]}</code>);
+        lastIndex = match.index + match[0].length;
+    }
+    if (lastIndex < text.length) nodes.push(text.slice(lastIndex));
+    return nodes;
+}
+
 export default function SiteHeader() {
-    const [progress, setProgress] = useState(0);
+    const [progress, setProgress]     = useState(0);
     const [activeHref, setActiveHref] = useState<string>("");
-    const [atBottom, setAtBottom] = useState(false);
-    // The sticky placeholder keeps document-flow height; the visual header morphs inside it
-    const placeholderRef = useRef<HTMLDivElement>(null);
-    const visualRef = useRef<HTMLElement>(null);
-    const expandedTabRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
+    const [atBottom, setAtBottom]     = useState(false);
+    const [expandedHeight, setExpandedHeight] = useState(0);
+    const [bannerDismissed, setBannerDismissed] = useState(false);
+
+    const headerRef        = useRef<HTMLElement>(null);
+    const expandedTabRefs  = useRef<Map<string, HTMLAnchorElement>>(new Map());
     const collapsedTabRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
-    const expandedNavRef = useRef<HTMLElement>(null);
-    const collapsedNavRef = useRef<HTMLElement>(null);
+    const expandedNavRef   = useRef<HTMLElement>(null);
+    const collapsedNavRef  = useRef<HTMLElement>(null);
 
-    // ── Scroll-driven progress + bottom-of-page detection ───────────────────
+    // ── Measure expanded height ──────────────────────────────────────────────
     useEffect(() => {
-        const onScroll = () => {
-            const h = placeholderRef.current?.offsetHeight ?? 120;
-            setProgress(Math.min(Math.max(window.scrollY / h, 0), 1));
+        const measure = () => {
+            if (headerRef.current) setExpandedHeight(headerRef.current.offsetHeight);
+        };
+        // Measure at p=0 (before any scroll)
+        measure();
+        window.addEventListener("resize", measure);
+        return () => window.removeEventListener("resize", measure);
+    }, [bannerDismissed]); // re-measure if banner dismissal changes height
 
-            const atBottom =
+    // ── Scroll progress + bottom detection ──────────────────────────────────
+    useEffect(() => {
+        if (!expandedHeight) return;
+        const onScroll = () => {
+            setProgress(Math.min(Math.max(window.scrollY / expandedHeight, 0), 1));
+            setAtBottom(
                 window.scrollY + window.innerHeight >=
-                document.documentElement.scrollHeight - 2;
-            setAtBottom(atBottom);
+                document.documentElement.scrollHeight - 2
+            );
         };
         window.addEventListener("scroll", onScroll, { passive: true });
         onScroll();
         return () => window.removeEventListener("scroll", onScroll);
-    }, []);
+    }, [expandedHeight]);
 
     // ── Active section tracking ──────────────────────────────────────────────
     useEffect(() => {
-        const anchors = site.navigation.filter(
-            (n) => !n.external && n.href.startsWith("#")
-        );
+        const anchors = NAV_ITEMS.filter((n) => !n.external && n.href.startsWith("#"));
         if (!anchors.length) return;
         const visible = new Set<string>();
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((e) => {
-                    const href = `#${e.target.id}`;
-                    if (e.isIntersecting) visible.add(href);
-                    else visible.delete(href);
-                });
-                const next = anchors.find((a) => visible.has(a.href));
-                if (next) setActiveHref(next.href);
-            },
-            { threshold: 0.2 }
-        );
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((e) => {
+                const href = `#${e.target.id}`;
+                if (e.isIntersecting) visible.add(href); else visible.delete(href);
+            });
+            const next = anchors.find((a) => visible.has(a.href));
+            if (next) setActiveHref(next.href);
+        }, { threshold: 0.2 });
         anchors.forEach(({ href }) => {
             const el = document.querySelector(href);
             if (el) observer.observe(el);
@@ -68,17 +98,14 @@ export default function SiteHeader() {
         return () => observer.disconnect();
     }, []);
 
-    // ── Auto-scroll active tab within its nav container ──────────────────────
-    useEffect(() => {
-        if (!activeHref) return;
-        (
-            [
-                [expandedTabRefs.current, expandedNavRef.current],
-                [collapsedTabRefs.current, collapsedNavRef.current],
-            ] as [Map<string, HTMLAnchorElement>, HTMLElement | null][]
-        ).forEach(([tabMap, nav]) => {
+    // ── Auto-scroll tab into view ────────────────────────────────────────────
+    function scrollTabIntoView(href: string) {
+        ([
+            [expandedTabRefs.current, expandedNavRef.current],
+            [collapsedTabRefs.current, collapsedNavRef.current],
+        ] as [Map<string, HTMLAnchorElement>, HTMLElement | null][]).forEach(([tabMap, nav]) => {
             if (!nav) return;
-            const tab = tabMap.get(activeHref);
+            const tab = tabMap.get(href);
             if (!tab) return;
             const offset =
                 tab.getBoundingClientRect().left -
@@ -87,108 +114,139 @@ export default function SiteHeader() {
                 tab.offsetWidth / 2;
             nav.scrollBy({ left: offset, behavior: "smooth" });
         });
-    }, [activeHref]);
+    }
+
+    useEffect(() => { if (activeHref) scrollTabIntoView(activeHref); }, [activeHref]);
+
+    useEffect(() => {
+        if (atBottom) {
+            const firstExternal = NAV_ITEMS.find((n) => n.external);
+            if (firstExternal) scrollTabIntoView(firstExternal.href);
+        }
+    }, [atBottom]);
 
     const siteWithExtras = site as typeof site & {
         contactBar?: { visible: boolean; text: string };
+        banner?: BannerData;
     };
     const contactBarText = siteWithExtras.contactBar?.visible
         ? siteWithExtras.contactBar.text.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
         : null;
+    const banner = siteWithExtras.banner;
 
     const p = ease(progress);
 
-    // Morph values
-    // Width: interpolate from 100vw → capped pill width via maxWidth + centering
-    const pillMaxW   = 700;                      // px — pill max width
-    const topGap     = lerp(0, 12, p);           // lift off top edge
-    const radius     = lerp(0, 9999, p);         // square → pill
-    const bgAlpha    = lerp(1, 0.9, p);
-    const blur       = lerp(0, 14, p);
-    const shadow     = lerp(0, 1, p);
-    const padV       = lerp(12, 6, p);           // vertical padding compression
-    const padH       = lerp(0, 16, p);           // side margin grows as it pills
+    // Geometry
+    const topGap  = lerp(0, 12, p);
+    const radius  = lerp(0, 9999, p);
+    const bgAlpha = lerp(1, 0.9, p);
+    const blur_v  = lerp(0, 14, p);
+    const shadow  = lerp(0, 1, p);
+    const padV    = lerp(12, 7, p);
+    const padH    = lerp(0, 16, p);
+    const height  = expandedHeight ? lerp(expandedHeight, PILL_H, p) : undefined;
+    // At p=0: full viewport width. At p=1: PILL_MAX_W px centred.
+    const width   = `calc(${lerp(100, 0, p)}vw + ${lerp(0, PILL_MAX_W, p)}px)`;
 
-    // Content cross-fade thresholds
-    const expandedOpacity  = Math.max(0, 1 - p * 2.5);
-    const collapsedOpacity = Math.max(0, p * 2.5 - 1.5);
+    const expandedOpacity  = Math.max(0, 1 - p * 2.2);
+    const collapsedOpacity = Math.max(0, p * 2.2 - 1.2);
 
-    // Active tab: when at bottom, highlight external links instead of last section
     function tabClass(href: string, external: boolean) {
         let cls = "nav-tab shrink-0";
         if (external) cls += " nav-tab-external";
-        if (atBottom && external) cls += " nav-tab-external-active";
+        if (atBottom && external)        cls += " nav-tab-external-active";
         else if (!atBottom && activeHref === href) cls += " nav-tab-active";
         return cls;
     }
 
+    const ICONS = [
+        { href: site.socials.resume,   label: "Resume",   Icon: FileIcon    },
+        { href: site.socials.linkedin, label: "LinkedIn", Icon: LinkedInIcon },
+        { href: site.socials.github,   label: "GitHub",   Icon: GitHubIcon   },
+    ] as const;
+
     return (
         <>
-            {/* ── STICKY PLACEHOLDER — holds document-flow height ─────────── */}
-            <div ref={placeholderRef} className="sticky top-0 z-50 w-full pointer-events-none" aria-hidden="true" />
+            {/* Sticky placeholder — reserves expanded height in document flow */}
+            <div
+                style={{ height: expandedHeight || undefined }}
+                className="sticky top-0 z-50 w-full pointer-events-none"
+                aria-hidden="true"
+            />
 
-            {/* ── VISUAL HEADER — fixed, morphs between full-bar and pill ──── */}
+            {/* Visual header — fixed, morphs via scroll */}
             <header
-                ref={visualRef}
+                ref={headerRef}
                 style={{
                     position: "fixed",
                     top: topGap,
                     left: "50%",
                     transform: "translateX(-50%)",
-                    // Width shrinks from 100vw → pillMaxW over scroll
-                    width: `calc(${lerp(100, 0, p)}vw + ${lerp(0, pillMaxW, p)}px)`,
+                    width,
                     maxWidth: `calc(100vw - ${padH * 2}px)`,
+                    height,
                     zIndex: 50,
                     borderRadius: radius,
                     background: `rgba(255,255,255,${bgAlpha})`,
-                    backdropFilter: blur > 0.5 ? `blur(${blur}px)` : undefined,
-                    WebkitBackdropFilter: blur > 0.5 ? `blur(${blur}px)` : undefined,
+                    backdropFilter: blur_v > 0.5 ? `blur(${blur_v}px)` : undefined,
+                    WebkitBackdropFilter: blur_v > 0.5 ? `blur(${blur_v}px)` : undefined,
                     borderBottom: p < 0.9 ? `1px solid var(--border)` : undefined,
                     border: p >= 0.9 ? `1px solid var(--border)` : undefined,
                     boxShadow: shadow > 0.05
                         ? `0 4px 24px rgba(0,0,0,${0.10 * shadow}), 0 1px 4px rgba(0,0,0,${0.06 * shadow})`
                         : undefined,
                     overflow: "hidden",
-                    paddingTop: padV,
-                    paddingBottom: padV,
                 }}
             >
-                {/* ── EXPANDED CONTENT — fades out first half ───────────────── */}
+                {/* ── EXPANDED content ───────────────────────────────────── */}
                 <div
-                    style={{ opacity: expandedOpacity, pointerEvents: p > 0.4 ? "none" : "auto" }}
-                    aria-hidden={p > 0.4}
+                    style={{
+                        opacity: expandedOpacity,
+                        pointerEvents: p > 0.45 ? "none" : "auto",
+                    }}
+                    aria-hidden={p > 0.45}
                 >
-                    <div className="max-w-5xl mx-auto px-6 md:px-12 flex items-start gap-5">
-                        {/* Avatar */}
+                    {/* Banner — inside expanded, hides as header morphs */}
+                    {banner?.visible && !bannerDismissed && (
+                        <div className="w-full border-b" style={{ background: "var(--banner-bg)", borderColor: "var(--banner-border)" }}>
+                            <div className="max-w-5xl mx-auto px-6 md:px-12 py-2 flex items-center gap-3">
+                                <p className="flex-1 text-sm text-center leading-snug banner-content" style={{ color: "var(--banner-text)" }}>
+                                    {parseInlineMarkdown(banner.text)}
+                                </p>
+                                <button
+                                    onClick={() => setBannerDismissed(true)}
+                                    aria-label="Dismiss banner"
+                                    className="shrink-0 rounded p-0.5 transition-opacity opacity-50 hover:opacity-100"
+                                    style={{ color: "var(--banner-text)" }}
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="max-w-5xl mx-auto px-6 md:px-12 flex items-start gap-5"
+                        style={{ paddingTop: padV, paddingBottom: padV }}>
                         <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden ring-2 ring-border shrink-0 mt-0.5">
                             <Image src={site.headshot} alt={site.name} width={80} height={80} className="object-cover w-full h-full" />
                         </div>
-
                         <div className="flex-1 min-w-0">
                             <div className="flex items-start justify-between gap-4">
                                 <div>
                                     <h1 className="text-base font-semibold leading-tight" style={{ fontFamily: "var(--font-lora), serif", color: "var(--header-text)" }}>
                                         {site.name}
                                     </h1>
-                                    <p className="text-xs leading-snug mt-0.5" style={{ color: "var(--text-muted)" }}>
-                                        {site.role}
-                                    </p>
+                                    <p className="text-xs leading-snug mt-0.5" style={{ color: "var(--text-muted)" }}>{site.role}</p>
                                     {contactBarText && (
-                                        <p className="hidden xs:block text-xs leading-snug mt-0.5" style={{ color: "var(--text-muted)" }}>
-                                            {contactBarText}
-                                        </p>
+                                        <p className="hidden xs:block text-xs leading-snug mt-0.5" style={{ color: "var(--text-muted)" }}>{contactBarText}</p>
                                     )}
                                 </div>
-                                {/* Icons */}
                                 <div className="flex items-center gap-3 shrink-0 pt-0.5">
-                                    {[
-                                        { href: site.socials.resume,   label: "Resume",   Icon: FileIcon    },
-                                        { href: site.socials.linkedin, label: "LinkedIn", Icon: LinkedInIcon },
-                                        { href: site.socials.github,   label: "GitHub",   Icon: GitHubIcon   },
-                                    ].map(({ href, label, Icon }) => (
+                                    {ICONS.map(({ href, label, Icon }) => (
                                         <Link key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
-                                            <Icon className="w-4 h-4 transition-colors"
-                                                style={{ color: ICON_COLOR }}
+                                            <Icon className="w-4 h-4 transition-colors" style={{ color: ICON_COLOR }}
                                                 onMouseEnter={(e: React.MouseEvent<SVGSVGElement>) => (e.currentTarget.style.color = ICON_HOVER)}
                                                 onMouseLeave={(e: React.MouseEvent<SVGSVGElement>) => (e.currentTarget.style.color = ICON_COLOR)}
                                             />
@@ -196,91 +254,58 @@ export default function SiteHeader() {
                                     ))}
                                 </div>
                             </div>
-
-                            {/* Nav tabs */}
                             <nav ref={expandedNavRef} className="mt-2 flex items-center overflow-x-auto no-scrollbar" aria-label="Site navigation">
-                                {site.navigation.map(({ label, href, external }, i) => {
-                                    // Divider before first external item
-                                    const prevWasInternal = i > 0 && !site.navigation[i - 1].external;
-                                    const showDivider = external && prevWasInternal;
-                                    return (
-                                        <React.Fragment key={href}>
-                                            {showDivider && (
-                                                <div className="w-px h-4 shrink-0 mx-1" style={{ background: "var(--border)" }} />
-                                            )}
-                                            <Link
-                                                href={href}
-                                                target={external ? "_blank" : undefined}
-                                                rel={external ? "noopener noreferrer" : undefined}
-                                                ref={(el) => { if (el) expandedTabRefs.current.set(href, el); }}
-                                                className={tabClass(href, external)}
-                                            >{label}</Link>
-                                        </React.Fragment>
-                                    );
-                                })}
+                                {NAV_ITEMS.map(({ label, href, external }, i) => (
+                                    <Link key={href} href={href}
+                                        target={external ? "_blank" : undefined}
+                                        rel={external ? "noopener noreferrer" : undefined}
+                                        ref={(el) => { if (el) expandedTabRefs.current.set(href, el); }}
+                                        className={tabClass(href, !!external)}
+                                    >{label}</Link>
+                                ))}
                             </nav>
                         </div>
                     </div>
                 </div>
 
-                {/* ── COLLAPSED CONTENT — fades in second half ─────────────── */}
+                {/* ── COLLAPSED pill content ─────────────────────────────── */}
                 <div
                     style={{
                         opacity: collapsedOpacity,
-                        pointerEvents: p < 0.6 ? "none" : "auto",
+                        pointerEvents: p < 0.55 ? "none" : "auto",
                         position: "absolute",
-                        inset: `0 0 0 0`,
+                        top: 0, left: 0, right: 0, bottom: 0,
                         display: "flex",
                         alignItems: "center",
                         gap: "0.5rem",
-                        padding: `${padV}px 1rem`,
+                        padding: "0 1rem",
                     }}
-                    aria-hidden={p < 0.6}
+                    aria-hidden={p < 0.55}
                 >
-                    {/* Mini avatar + first name */}
                     <div className="flex items-center gap-2 shrink-0">
                         <div className="w-7 h-7 rounded-full overflow-hidden ring-1 ring-border shrink-0">
                             <Image src={site.headshot} alt={site.name} width={28} height={28} className="object-cover w-full h-full" />
                         </div>
-                        <span className="text-sm font-semibold hidden sm:block whitespace-nowrap" style={{ fontFamily: "var(--font-lora), serif", color: "var(--header-text)" }}>
+                        <span className="text-sm font-semibold hidden sm:block whitespace-nowrap"
+                            style={{ fontFamily: "var(--font-lora), serif", color: "var(--header-text)" }}>
                             {site.name.split(" ")[0]}
                         </span>
                     </div>
-
                     <div className="w-px h-4 shrink-0 mx-0.5" style={{ background: "var(--border)" }} />
-
-                    {/* Nav tabs */}
                     <nav ref={collapsedNavRef} className="flex items-center overflow-x-auto no-scrollbar min-w-0 flex-1" aria-label="Site navigation">
-                        {site.navigation.map(({ label, href, external }, i) => {
-                            const prevWasInternal = i > 0 && !site.navigation[i - 1].external;
-                            const showDivider = external && prevWasInternal;
-                            return (
-                                <React.Fragment key={href}>
-                                    {showDivider && (
-                                        <div className="w-px h-4 shrink-0 mx-1" style={{ background: "var(--border)" }} />
-                                    )}
-                                    <Link
-                                        href={href}
-                                        target={external ? "_blank" : undefined}
-                                        rel={external ? "noopener noreferrer" : undefined}
-                                        ref={(el) => { if (el) collapsedTabRefs.current.set(href, el); }}
-                                        className={tabClass(href, external)}
-                                    >{label}</Link>
-                                </React.Fragment>
-                            );
-                        })}
+                        {NAV_ITEMS.map(({ label, href, external }) => (
+                            <Link key={href} href={href}
+                                target={external ? "_blank" : undefined}
+                                rel={external ? "noopener noreferrer" : undefined}
+                                ref={(el) => { if (el) collapsedTabRefs.current.set(href, el); }}
+                                className={tabClass(href, !!external)}
+                            >{label}</Link>
+                        ))}
                     </nav>
-
-                    {/* Icons */}
                     <div className="flex items-center gap-3 shrink-0 ml-auto pl-1">
-                        {[
-                            { href: site.socials.resume,   label: "Resume",   Icon: FileIcon    },
-                            { href: site.socials.linkedin, label: "LinkedIn", Icon: LinkedInIcon },
-                            { href: site.socials.github,   label: "GitHub",   Icon: GitHubIcon   },
-                        ].map(({ href, label, Icon }) => (
+                        {ICONS.map(({ href, label, Icon }) => (
                             <Link key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
-                                <Icon className="w-3.5 h-3.5 transition-colors"
-                                    style={{ color: ICON_COLOR }}
+                                <Icon className="w-3.5 h-3.5 transition-colors" style={{ color: ICON_COLOR }}
                                     onMouseEnter={(e: React.MouseEvent<SVGSVGElement>) => (e.currentTarget.style.color = ICON_HOVER)}
                                     onMouseLeave={(e: React.MouseEvent<SVGSVGElement>) => (e.currentTarget.style.color = ICON_COLOR)}
                                 />
