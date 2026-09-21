@@ -1,6 +1,6 @@
 {
-  "name": "YOUR_NAME",
-  "role": "Mathematics & Business Student",
+  "name": "Pranav Joshi",
+  "role": "Mathematics/Business Administration Student",
   "description": "Portfolio website — University of Waterloo Mathematics/Business Administration student with experience in AI, automation, and product development.",
   "headshot": "/headshots/headshot4.png",
   "banner": {
@@ -16,6 +16,10 @@
     "text": "joshipn2018@gmail.com · p42joshi@uwaterloo.ca · [linkedin.com/in/pranav-joshi-fintech](https://linkedin.com/in/pranav-joshi-fintech)"
   },
   "footer": "Thank you for reading my website. If you want to connect, feel free to reach out!",
+  "ultraFooter": {
+    "visible": true,
+    "text": "Forked from [Michael Ferreira](https://michaelferreira.me)"
+  },
   "intro": [
     "I study [Mathematics and Business Administration](yellow) at the University of Waterloo, with a focus on [mathematical optimization](blue), combinatorics, finance, and computer science.",
     "I've built and shipped [AI/automation tools in production](orange) — at Othership I built RAG and GPT-based systems that processed [150K+ accounts](green) and saved $12K+ annually. I've also done contract automation work for startups like Jaybird Studios and Lagree West, and led product development at a TKS × Interac innovation sprint, presenting a [Gen-Z financial coaching app](yellow) to Interac's innovation team.",
@@ -23,7 +27,7 @@
   ],
   "education": [
     {
-      "degree": "BMath — Mathematics/Business Administration",
+      "degree": "Honour Bachelor's Degree of Mathematics: Math/Business Administration, Co-op",
       "school": "University of Waterloo",
       "logo": "/logos/uw_logo.png"
     }

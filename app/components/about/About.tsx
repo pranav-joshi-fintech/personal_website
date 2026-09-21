@@ -42,7 +42,7 @@ export default function About() {
                 {site.education.map((edu) => (
                     <div
                         key={edu.school}
-                        className="flex items-center gap-3 rounded-lg border border-border bg-tag-bg px-3 py-2"
+                        className="flex items-center gap-3 rounded-lg border border-border bg-tag-bg px-3 py-2 md:w-[160%]"
                     >
                         <div className="relative w-10 h-10 shrink-0">
                             <Image

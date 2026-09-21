@@ -3,6 +3,8 @@ import { Analytics } from "@vercel/analytics/react";
 import { DM_Sans, Lora } from "next/font/google";
 import SiteHeader from "@/app/components/SiteHeader";
 import Footer from "@/app/components/Footer";
+import UltraFooter from "@/app/components/UltraFooter";
+import ScrollToTop from "@/app/components/ScrollToTop";
 import "./globals.css";
 import site from "@/data/site.json";
 
@@ -35,11 +37,13 @@ export default function RootLayout({
                 className="min-h-full"
                 style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
             >
+                <ScrollToTop />
                 <SiteHeader />
                 <div className="max-w-5xl mx-auto px-6 md:px-12 py-6 md:py-8">
                     {children}
                 </div>
                 <Footer />
+                <UltraFooter />
                 <Analytics />
             </body>
         </html>

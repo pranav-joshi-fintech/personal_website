@@ -235,3 +235,15 @@ h1 {
 }
 
 
+
+
+/* ── Ultra footer (credits) ──────────────────────────────────────────────── */
+.ultra-footer-link {
+    color: var(--text-muted);
+    text-decoration: none;
+}
+.ultra-footer-link:hover {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}

@@ -147,7 +147,6 @@ export default function SiteHeader() {
     const radius  = lerp(0, 9999, p);
     const bgAlpha = lerp(1, 0.9, p);
     const blur_v  = lerp(0, 14, p);
-    const shadow  = lerp(0, 1, p);
     const padV    = lerp(12, 7, p);
     const padH    = lerp(0, 16, p);
     const height  = expandedHeight ? lerp(expandedHeight, PILL_H, p) : undefined;
@@ -201,9 +200,7 @@ export default function SiteHeader() {
                     WebkitBackdropFilter: blur_v > 0.5 ? `blur(${blur_v}px)` : undefined,
                     borderBottom: p < 0.9 ? `1px solid var(--border)` : undefined,
                     border: p >= 0.9 ? `1px solid var(--border)` : undefined,
-                    boxShadow: shadow > 0.05
-                        ? `0 4px 24px rgba(0,0,0,${0.10 * shadow}), 0 1px 4px rgba(0,0,0,${0.06 * shadow})`
-                        : undefined,
+                    boxShadow: "0 3px 12px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.03)",
                     overflow: "hidden",
                     transition: bannerClosing
                         ? `height ${BANNER_CLOSE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`
