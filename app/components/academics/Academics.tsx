@@ -23,6 +23,7 @@ export default function Academics() {
                                 alt={item.institution}
                                 width={44}
                                 height={44}
+                                unoptimized
                                 className="object-contain w-full h-full p-1"
                             />
                         </div>

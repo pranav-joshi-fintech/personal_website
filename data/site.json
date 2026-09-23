@@ -1,33 +1,33 @@
 {
   "name": "Pranav Joshi",
-  "role": "Mathematics/Business Administration Student",
-  "description": "Portfolio website — University of Waterloo Mathematics/Business Administration student with experience in AI, automation, and product development.",
+  "role": "Math/Business Administration @ UWaterloo",
+  "description": "Pranav Joshi is a Mathematics and Business Administration student at the University of Waterloo who builds AI and automation systems at the intersection of optimization, finance, and product.",
   "headshot": "/headshots/headshot.png",
   "banner": {
     "visible": true,
-    "text": "**Open to Summer 2026 internships** — AI, quant, fintech, or product. [Reach out →](mailto:your@email.com)"
+    "text": "**Open to Summer 2026 internships**. [Reach out](mailto:p42joshi@uwaterloo.ca)"
   },
   "contactBar": {
     "visible": false,
-    "text": "joshipn2018@gmail.com · p42joshi@uwaterloo.ca · [linkedin.com/in/pranav-joshi-fintech](https://linkedin.com/in/pranav-joshi-fintech)"
+    "text": "joshipn2018@gmail.com and pranav.joshi@uwaterloo.ca"
   },
   "contactBar2": {
     "visible": true,
-    "text": "joshipn2018@gmail.com · p42joshi@uwaterloo.ca · [linkedin.com/in/pranav-joshi-fintech](https://linkedin.com/in/pranav-joshi-fintech)"
+    "text": "[joshipn2018@gmail.com](mailto:joshipn2018@gmail.com) and [pranav.joshi@uwaterloo.ca](mailto:pranav.joshi@uwaterloo.ca) and [LinkedIn](https://www.linkedin.com/in/pranav-joshi-fintech)"
   },
-  "footer": "Thank you for reading my website. If you want to connect, feel free to reach out!",
+  "footer": "Thank you for reading. If something here resonates with you, I would love to hear from you.",
   "ultraFooter": {
     "visible": true,
     "text": "Forked from [Michael Ferreira](https://michaelferreira.me)"
   },
   "intro": [
-    "I study [Mathematics and Business Administration](yellow) at the University of Waterloo, with a focus on [mathematical optimization](blue), combinatorics, finance, and computer science.",
-    "I've built and shipped [AI/automation tools in production](orange) — at Othership I built RAG and GPT-based systems that processed [150K+ accounts](green) and saved $12K+ annually. I've also done contract automation work for startups like Jaybird Studios and Lagree West, and led product development at a TKS × Interac innovation sprint, presenting a [Gen-Z financial coaching app](yellow) to Interac's innovation team.",
-    "Outside of that, I enjoy [math competitions](blue), case studies, and exploring problems at the intersection of [quantitative reasoning](orange) and real-world impact."
+    "I am Pranav Joshi, and I study [Mathematics and Business Administration](yellow) at the University of Waterloo. I grew up believing that numbers tell stories, and I have spent the years since trying to listen carefully to what they say.",
+    "My work lives where three languages meet: the precision of [mathematical optimization](blue), the logic of [computer science](green), and the judgment of [business analysis](orange). I have shipped AI and automation systems into production, built agentic assistants that reason rather than merely reply, and watched tools I wrote quietly save companies thousands of dollars and hundreds of hours.",
+    "I am shaped as much by the competitions I have entered and the cases I have argued as by the contracts I have delivered. What moves me is curiosity, a stubborn love of mathematics, and the conviction that a well posed problem is already half solved. If any of this speaks to you, please reach out."
   ],
   "education": [
     {
-      "degree": "Honour Bachelor's Degree of Mathematics: Math/Business Administration, Co-op",
+      "degree": "Honours Bachelor of Mathematics, Mathematics/Business Administration, Co-op",
       "school": "University of Waterloo",
       "logo": "/logos/uw_logo.png"
     }
@@ -37,12 +37,11 @@
     { "label": "Experience", "href": "#experience", "visible": true },
     { "label": "Academics", "href": "#academics", "visible": true },
     { "label": "Projects", "href": "#projects", "visible": true },
-    { "label": "My Posts", "href": "https://linkedin.com/in/pranav-joshi-fintech", "external": true, "visible": false },
-    { "label": "Resume", "href": "/resume.pdf", "external": true, "visible": true }
+    { "label": "Resume", "href": "/pranav_joshi_resume.pdf", "external": true, "visible": true }
   ],
   "socials": {
-    "linkedin": "https://linkedin.com/in/pranav-joshi-fintech",
-    "github": "https://github.com/YOUR_GITHUB",
-    "resume": "/resume.pdf"
+    "linkedin": "https://www.linkedin.com/in/pranav-joshi-fintech",
+    "github": "https://github.com/pranav-joshi-fintech",
+    "resume": "/pranav_joshi_resume.pdf"
   }
 }

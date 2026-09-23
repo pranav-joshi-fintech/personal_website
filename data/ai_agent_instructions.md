@@ -102,7 +102,7 @@ Each is `{ "visible": boolean, "text": string }`.
 ### `navigation[]`
 ```json
 { "label": "Experience", "href": "#experience", "visible": true }
-{ "label": "Resume", "href": "/resume.pdf", "external": true, "visible": true }
+{ "label": "Resume", "href": "/pranav_joshi_resume.pdf", "external": true, "visible": true }
 ```
 | Field | Type | Required | Notes |
 | ----- | ---- | -------- | ----- |
@@ -118,7 +118,7 @@ Anchor hrefs must match the section IDs above to scroll correctly.
 "socials": {
   "linkedin": "https://linkedin.com/in/your-handle",
   "github": "https://github.com/your-username",
-  "resume": "/resume.pdf"
+  "resume": "/pranav_joshi_resume.pdf"
 }
 ```
 All three are used by header/sidebar/mobile nav icons. Keep them as valid URLs (or a
@@ -238,7 +238,7 @@ Use this as a task list when filling in content from the resume:
 2. **`experience.json`** — one entry per role. Real `companyLogo` paths, `summary`, ≤5 `technologies`, correct `endDate` (`null` for current).
 3. **`academics.json`** — one entry per course/program. Real `description`, ≤5 `topics`, correct dates.
 4. **`projects.json`** — one entry per project, in intended display order. Real `url`/`githubUrl` (no `YOUR_GITHUB` placeholders), concise `description` (first 3 lines matter).
-5. **Assets** — ensure every referenced path exists under `/public` (headshot, logos, company logos, `resume.pdf`).
+5. **Assets** — ensure every referenced path exists under `/public` (headshot, logos, company logos, `pranav_joshi_resume.pdf`).
 
 ### Validation before publishing
 - Every file parses as valid JSON (no trailing commas/comments).

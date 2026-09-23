@@ -1,43 +1,53 @@
 [
   {
-    "title": "Software Engineer / AI & Automation Intern",
+    "title": "AI and Automation Contractor",
+    "company": "Jaybird Studios",
+    "companyLogo": "/company_logos/jaybird.jpg",
+    "location": "Remote",
+    "startDate": "Jan 2026",
+    "endDate": "Feb 2026",
+    "summary": "Designed and deployed AI powered automations for a fitness and Pilates startup, covering email workflows, customer review processing, data management, and user registration. I translated the company's operational needs into production workflows that, by the company's own estimate, returned more than two hundred hours each month and close to nine thousand dollars a year.",
+    "technologies": ["Python", "Gemini API", "Google Cloud Functions", "Zapier", "Make"]
+  },
+  {
+    "title": "AI and Automation Contractor",
+    "company": "Lagree West",
+    "companyLogo": "/company_logos/lagreewest.jpg",
+    "location": "Remote",
+    "startDate": "Nov 2025",
+    "endDate": "Jan 2026",
+    "summary": "Developed and deployed AI powered automations on Google Cloud that streamlined core business processes. The systems generated an estimated eight thousand dollars in recurring annual savings, and taught me how much quiet value sits inside work that no one wants to do by hand.",
+    "technologies": ["Google Cloud", "Python", "AI Automation", "FinTech"]
+  },
+  {
+    "title": "Project Manager, Youth Innovation Program",
+    "company": "Interac Corp.",
+    "companyLogo": "/company_logos/interac.jpg",
+    "location": "Toronto, ON",
+    "startDate": "Sep 2025",
+    "endDate": "Nov 2025",
+    "summary": "Selected through The Knowledge Society to work with Interac's Innovation team on a personalized payments experience for Gen Z. I led product strategy, ran sprint planning and weekly mentor reviews, designed the user flows and Figma prototype, and built an agentic AI assistant with real decision logic using Python and the OpenAI API. We presented the final prototype and business case to Interac mentors in person.",
+    "technologies": ["Python", "OpenAI API", "Figma", "Product Strategy", "UX Architecture"]
+  },
+  {
+    "title": "Software Engineering, AI and Automation Intern",
     "company": "Othership",
     "companyUrl": "https://www.othership.us",
     "companyLogo": "/company_logos/othership.jpg",
     "location": "Toronto, ON",
     "startDate": "May 2025",
     "endDate": "Aug 2025",
-    "summary": "Built AI tools using RAG, GPT, TensorFlow, and Google Cloud that went into production. Projected impact: $12K+ annual savings, 300+ human-hours saved annually, 150K+ accounts processed annually.",
-    "technologies": ["Python", "TensorFlow", "Google Cloud", "RAG", "GPT"]
+    "summary": "Worked full time on a technical team at a fast moving startup, pioneering Othership's first serious use of AI and automation. I built and deployed production systems that saved more than twelve thousand dollars and three hundred hours a year, including an account auto merging workflow now processing over one hundred and fifty thousand accounts annually, an AI customer support bot, and a lease analyser pipeline built on GPT and RAG.",
+    "technologies": ["Python", "GPT", "RAG", "TensorFlow", "Google Cloud"]
   },
-  {
-    "title": "AI Automation Contractor",
-    "company": "Jaybird Studios",
-    "companyLogo": "/company_logos/jaybird.jpg",
-    "location": "Remote",
-    "startDate": "2024",
-    "endDate": null,
-    "summary": "Built business automation systems for a fitness/Pilates startup — automated emails, customer reviews, data workflows, and user registration. Estimated $8K in recurring annual savings for the client.",
-    "technologies": ["Python", "Zapier", "Make", "Google Cloud Functions", "ChatGPT", "Gemini API", "Claude"]
-  },
-  {
-    "title": "AI Automation Contractor",
-    "company": "Lagree West",
-    "companyLogo": "/company_logos/lagreewest.jpg",
-    "location": "Remote",
-    "startDate": "2024",
-    "endDate": null,
-    "summary": "Built Google Cloud automations leveraging AI, estimated to save approximately $8K in recurring annual costs.",
-    "technologies": ["Google Cloud", "Python", "AI Automation"]
-  },
-  {
-    "title": "Project Manager — Innovation Sprint",
-    "company": "TKS × Interac",
-    "companyLogo": "/company_logos/interac.jpg",
-    "location": "Toronto, ON",
-    "startDate": "2024",
-    "endDate": "2024",
-    "summary": "Led product development of a Gen-Z financial coaching app — market research, user interviews, Figma prototyping, AI architecture. Presented final prototype to Interac innovation leaders at Interac HQ.",
-    "technologies": ["Figma", "User Research", "Product Design", "AI Architecture"]
+    {
+    "title": "Senior Cadet, Instructor and Teacher",
+    "company": "Royal Canadian Air Cadets",
+    "companyLogo": "/company_logos/air_cadets.jpg",
+    "location": "Brampton, ON",
+    "startDate": "Jun 2025",
+    "endDate": "May 2026",
+    "summary": "Served as a Senior Cadet in the 132 Spitfire Squadron, teaching aviation, military ethos, leadership, project management, and flight physics to a group of roughly thirty cadets. The classroom taught me that clarity is a form of respect, and that impromptu speaking is a skill you earn rather than inherit.",
+    "technologies": ["Public Speaking", "Leadership", "Teaching", "Project Management"]
   }
 ]

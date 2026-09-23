@@ -1,42 +1,32 @@
 [
   {
-    "name": "Risk Analysis & Financial Mathematics",
-    "institution": "University of Waterloo",
-    "logo": "/logos/uw_logo.png",
-    "url": "https://uwaterloo.ca/math",
-    "startDate": "Sep 2025",
-    "endDate": null,
-    "description": "Probability theory, stochastic processes, and quantitative risk modelling applied to financial systems. Covers value-at-risk, Monte Carlo simulation, and actuarial risk measures.",
-    "topics": ["Probability", "Stochastic Processes", "Monte Carlo", "VaR", "Actuarial Methods"]
-  },
-  {
-    "name": "Combinatorial Optimization",
-    "institution": "University of Waterloo",
-    "logo": "/logos/uw_logo.png",
-    "url": "https://uwaterloo.ca/math",
+    "name": "Convex Analysis and Optimization (6.253)",
+    "institution": "Massachusetts Institute of Technology, OpenCourseWare",
+    "logo": "/logos/mit_logo.png",
+    "url": "https://ocw.mit.edu",
     "startDate": "Jan 2026",
     "endDate": null,
-    "description": "Integer programming, graph algorithms, and NP-hard problem analysis. Topics include network flows, matching theory, the travelling salesman problem, and approximation algorithms.",
-    "topics": ["Integer Programming", "Graph Algorithms", "Network Flows", "Approximation"]
+    "description": "Convexity, duality, and the theory behind the optimization I use in practice. Studying convex sets, subgradients, and Lagrangian duality gave me the vocabulary to reason about why an algorithm converges, not merely that it does.",
+    "topics": ["Convexity", "Duality", "Lagrangian Methods", "Subgradients"]
   },
   {
-    "name": "Computational Mathematics",
-    "institution": "University of Waterloo",
-    "logo": "/logos/uw_logo.png",
-    "url": "https://uwaterloo.ca/math",
+    "name": "Linear Algebra (18.06)",
+    "institution": "Massachusetts Institute of Technology, OpenCourseWare",
+    "logo": "/logos/mit_logo.png",
+    "url": "https://ocw.mit.edu",
     "startDate": "Sep 2025",
     "endDate": "Dec 2025",
-    "description": "Numerical methods, linear algebra algorithms, and scientific computing. Emphasis on floating-point arithmetic, iterative solvers, and matrix decompositions (LU, QR, SVD).",
-    "topics": ["Numerical Methods", "Linear Algebra", "Iterative Solvers", "SVD", "Python"]
+    "description": "The grammar of nearly everything computational, from least squares to the singular value decomposition. Working through matrix factorizations changed how I see data, as geometry waiting to be read rather than numbers waiting to be stored.",
+    "topics": ["Vector Spaces", "Eigenvalues", "SVD", "Least Squares", "Matrix Factorization"]
   },
   {
-    "name": "Operations Research",
-    "institution": "University of Waterloo",
-    "logo": "/logos/uw_logo.png",
-    "url": "https://uwaterloo.ca/math",
+    "name": "Introduction to Probability (STAT 110)",
+    "institution": "Harvard University, edX",
+    "logo": "/logos/harvard_logo.jpg",
+    "url": "https://www.edx.org/learn/probability/harvard-university-introduction-to-probability",
     "startDate": "Jan 2026",
-    "endDate": "Apr 2026",
-    "description": "Linear programming, the simplex method, duality theory, and decision modelling. Applied to supply chain optimisation, resource allocation, and scheduling problems.",
-    "topics": ["Linear Programming", "Simplex", "Duality", "Scheduling", "Decision Models"]
+    "endDate": null,
+    "description": "An introduction to the fundamental concepts and techniques of probability theory. This course covers random variables, distributions, and limit theorems.",
+    "topics": ["Random Variables", "Distributions", "Limit Theorems"]
   }
 ]
