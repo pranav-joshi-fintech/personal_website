@@ -51,6 +51,14 @@ export default function Academics() {
                                 </span>
                             </div>
 
+                            {(item.scholarship || (item.showGpa && item.gpa)) && (
+                                <div className="flex flex-wrap items-center gap-x-1.5 mt-0.5 text-sm text-text">
+                                    {item.scholarship && <span>{item.scholarship}</span>}
+                                    {item.scholarship && item.showGpa && item.gpa && <span>·</span>}
+                                    {item.showGpa && item.gpa && <span>GPA: {item.gpa}</span>}
+                                </div>
+                            )}
+
                             <p className="text-sm mt-1.5 leading-relaxed text-text-muted">
                                 {item.description}
                             </p>

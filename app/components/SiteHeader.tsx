@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import React from "react";
+import HeadshotAvatar from "@/app/components/HeadshotAvatar";
 import { FileIcon, GitHubIcon, LinkedInIcon } from "@/app/icons/Icons";
 import site from "@/data/site.json";
 
@@ -257,9 +257,8 @@ export default function SiteHeader() {
 
                     <div className="max-w-5xl mx-auto px-6 md:px-12 flex items-start gap-5"
                         style={{ paddingTop: padV, paddingBottom: padV }}>
-                        <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden ring-2 ring-border shrink-0 mt-0.5">
-                            <Image src={site.headshot} alt={site.name} width={80} height={80} className="object-cover w-full h-full" />
-                        </div>
+                        <HeadshotAvatar src={site.headshot} alt={site.name} size={80}
+                            className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden ring-2 ring-border shrink-0 mt-0.5" />
                         <div className="flex-1 min-w-0">
                             <div className="flex items-start justify-between gap-4">
                                 <div>
@@ -308,9 +307,8 @@ export default function SiteHeader() {
                     aria-hidden={p < 0.55}
                 >
                     <div className="flex items-center gap-2 shrink-0">
-                        <div className="w-7 h-7 rounded-full overflow-hidden ring-1 ring-border shrink-0">
-                            <Image src={site.headshot} alt={site.name} width={28} height={28} className="object-cover w-full h-full" />
-                        </div>
+                        <HeadshotAvatar src={site.headshot} alt={site.name} size={28}
+                            className="w-7 h-7 rounded-full overflow-hidden ring-1 ring-border shrink-0" />
                         <span className="text-sm font-semibold hidden sm:block whitespace-nowrap"
                             style={{ fontFamily: "var(--font-lora), serif", color: "var(--header-text)" }}>
                             {site.name.split(" ")[0]}

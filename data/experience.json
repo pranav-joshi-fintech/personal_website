@@ -3,42 +3,42 @@
     "title": "AI and Automation Contractor",
     "company": "Jaybird Studios",
     "companyLogo": "/company_logos/jaybird.jpg",
-    "location": "Remote",
+    "location": "Vancouver (Remote), BC",
     "startDate": "Jan 2026",
     "endDate": "Feb 2026",
-    "summary": "Designed and deployed AI powered automations for a fitness and Pilates startup, covering email workflows, customer review processing, data management, and user registration. I translated the company's operational needs into production workflows that, by the company's own estimate, returned more than two hundred hours each month and close to nine thousand dollars a year.",
+    "summary": "Engineered Python automation workflows for Jaybird Studios that save an estimated 200+ hours and $9K CAD a year. The workflows integrate the Gemini API and Google Cloud Functions with Zapier and Make, and now run the company's customer registration and customer data operations.",
     "technologies": ["Python", "Gemini API", "Google Cloud Functions", "Zapier", "Make"]
   },
   {
     "title": "AI and Automation Contractor",
     "company": "Lagree West",
     "companyLogo": "/company_logos/lagreewest.jpg",
-    "location": "Remote",
+    "location": "Vancouver (Remote), BC",
     "startDate": "Nov 2025",
     "endDate": "Jan 2026",
-    "summary": "Developed and deployed AI powered automations on Google Cloud that streamlined core business processes. The systems generated an estimated eight thousand dollars in recurring annual savings, and taught me how much quiet value sits inside work that no one wants to do by hand.",
-    "technologies": ["Google Cloud", "Python", "AI Automation", "FinTech"]
+    "summary": "Generated an estimated $8K CAD in annual savings for Lagree West by optimizing SQL queries and integrating the ChatGPT API into Google Cloud data pipelines for record processing and customer registration.",
+    "technologies": ["SQL", "OpenAI API", "Google Cloud", "Python"]
   },
   {
     "title": "Project Manager, Youth Innovation Program",
-    "company": "Interac Corp.",
+    "company": "The Interac Corporation",
     "companyLogo": "/company_logos/interac.jpg",
-    "location": "Toronto, ON",
+    "location": "Toronto (Hybrid), ON",
     "startDate": "Sep 2025",
     "endDate": "Nov 2025",
-    "summary": "Selected through The Knowledge Society to work with Interac's Innovation team on a personalized payments experience for Gen Z. I led product strategy, ran sprint planning and weekly mentor reviews, designed the user flows and Figma prototype, and built an agentic AI assistant with real decision logic using Python and the OpenAI API. We presented the final prototype and business case to Interac mentors in person.",
-    "technologies": ["Python", "OpenAI API", "Figma", "Product Strategy", "UX Architecture"]
+    "summary": "Built an AI-powered financial assistant for Gen Z with Interac's Innovation team. Led customer discovery on Gen Z budgeting and saving habits, and translated the findings into user personas and product hypotheses, then into prioritized product requirements. Coordinated sprint execution with Interac mentors and presented the prototype and final business case to Interac executives.",
+    "technologies": ["Product Strategy", "Customer Discovery", "Python", "Flask", "Cohere API"]
   },
   {
-    "title": "Software Engineering, AI and Automation Intern",
+    "title": "AI and Automation Software Engineering Intern",
     "company": "Othership",
     "companyUrl": "https://www.othership.us",
     "companyLogo": "/company_logos/othership.jpg",
     "location": "Toronto, ON",
     "startDate": "May 2025",
     "endDate": "Aug 2025",
-    "summary": "Worked full time on a technical team at a fast moving startup, pioneering Othership's first serious use of AI and automation. I built and deployed production systems that saved more than twelve thousand dollars and three hundred hours a year, including an account auto merging workflow now processing over one hundred and fifty thousand accounts annually, an AI customer support bot, and a lease analyser pipeline built on GPT and RAG.",
-    "technologies": ["Python", "GPT", "RAG", "TensorFlow", "Google Cloud"]
+    "summary": "Saved Othership $12K+ CAD and 300+ hours a year through production AI and automation systems. Engineered and deployed an account-merging workflow on the MarianaTek API that consolidates duplicate customer accounts across a system handling 150K+ accounts annually. Also built GPT and RAG applications on Google Cloud, including an AI support bot and a lease-analysis system for over 3,000 pages of lease documents.",
+    "technologies": ["Python", "MarianaTek API", "GPT", "RAG", "Google Cloud"]
   },
     {
     "title": "Senior Cadet, Instructor and Teacher",
@@ -47,7 +47,7 @@
     "location": "Brampton, ON",
     "startDate": "Jun 2025",
     "endDate": "May 2026",
-    "summary": "Served as a Senior Cadet in the 132 Spitfire Squadron, teaching aviation, military ethos, leadership, project management, and flight physics to a group of roughly thirty cadets. The classroom taught me that clarity is a form of respect, and that impromptu speaking is a skill you earn rather than inherit.",
+    "summary": "Taught aviation, flight physics, leadership and project management to a class of roughly 30 cadets as a Senior Cadet in 132 Spitfire Squadron.",
     "technologies": ["Public Speaking", "Leadership", "Teaching", "Project Management"]
   }
 ]

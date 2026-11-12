@@ -1,7 +1,7 @@
 [
   {
     "title": "AI Powered Financial Assistant",
-    "description": "Pitched an AI assistant to executives at Interac's headquarters in Toronto",
+    "description": "Agentic RAG assistant on the OpenAI API, pitched to executives at Interac's Toronto headquarters during the Youth Innovation Program.",
     "githubUrl": "https://github.com/pranav-joshi-fintech/interacGPT",
     "technologies": ["RAG", "OpenAI API", "Python", "Figma", "UX Architecture"]
   }

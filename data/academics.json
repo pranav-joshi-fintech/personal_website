@@ -1,12 +1,25 @@
 [
   {
+    "name": "Honours Bachelor of Mathematics, Mathematics/Business Administration (Co-op)",
+    "institution": "University of Waterloo",
+    "logo": "/logos/uw_logo.png",
+    "url": "https://uwaterloo.ca",
+    "startDate": "2026",
+    "endDate": "2031",
+    "scholarship": "Presidential Scholarship of Distinction",
+    "gpa": "3.7",
+    "showGpa": true,
+    "description": "Current coursework includes MATH 137 Calculus, MATH 135 Proofs, CS 135 Designing Functional Programs and ECON 101 Microeconomics, among other courses.",
+    "topics": ["Proofs", "Calculus", "Functional Programming", "Microeconomics"]
+  },
+  {
     "name": "Convex Analysis and Optimization (6.253)",
     "institution": "Massachusetts Institute of Technology, OpenCourseWare",
     "logo": "/logos/mit_logo.png",
     "url": "https://ocw.mit.edu",
     "startDate": "Jan 2026",
     "endDate": null,
-    "description": "Convexity, duality, and the theory behind the optimization I use in practice. Studying convex sets, subgradients, and Lagrangian duality gave me the vocabulary to reason about why an algorithm converges, not merely that it does.",
+    "description": "Self-directed study of MIT's graduate course on convexity, Lagrangian duality and subgradient methods, including the convergence theory behind modern optimization algorithms.",
     "topics": ["Convexity", "Duality", "Lagrangian Methods", "Subgradients"]
   },
   {
@@ -16,7 +29,7 @@
     "url": "https://ocw.mit.edu",
     "startDate": "Sep 2025",
     "endDate": "Dec 2025",
-    "description": "The grammar of nearly everything computational, from least squares to the singular value decomposition. Working through matrix factorizations changed how I see data, as geometry waiting to be read rather than numbers waiting to be stored.",
+    "description": "Completed MIT's core linear algebra course, covering vector spaces, eigenvalue problems, least squares and the singular value decomposition.",
     "topics": ["Vector Spaces", "Eigenvalues", "SVD", "Least Squares", "Matrix Factorization"]
   },
   {
@@ -25,8 +38,8 @@
     "logo": "/logos/harvard_logo.jpg",
     "url": "https://www.edx.org/learn/probability/harvard-university-introduction-to-probability",
     "startDate": "Jan 2026",
-    "endDate": null,
-    "description": "An introduction to the fundamental concepts and techniques of probability theory. This course covers random variables, distributions, and limit theorems.",
+    "endDate": "Sep 2026",
+    "description": "Harvard's probability course covering random variables, distributions and limit theorems.",
     "topics": ["Random Variables", "Distributions", "Limit Theorems"]
   }
 ]

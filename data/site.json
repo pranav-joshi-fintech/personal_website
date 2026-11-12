@@ -1,10 +1,10 @@
 {
   "name": "Pranav Joshi",
   "role": "Math/Business Administration @ UWaterloo",
-  "description": "Pranav Joshi is a Mathematics and Business Administration student at the University of Waterloo who builds AI and automation systems at the intersection of optimization, finance, and product.",
+  "description": "Pranav Joshi is a Mathematics and Business Administration student at the University of Waterloo who builds production AI and automation systems, saving the companies using them about $29K CAD and 500 hours a year.",
   "headshot": "/headshots/headshot.png",
   "banner": {
-    "visible": true,
+    "visible": false,
     "text": "**Open to Summer 2026 internships**. [Reach out](mailto:p42joshi@uwaterloo.ca)"
   },
   "contactBar": {
@@ -15,14 +15,14 @@
     "visible": true,
     "text": "[joshipn2018@gmail.com](mailto:joshipn2018@gmail.com) and [pranav.joshi@uwaterloo.ca](mailto:pranav.joshi@uwaterloo.ca) and [LinkedIn](https://www.linkedin.com/in/pranav-joshi-fintech)"
   },
-  "footer": "Thank you for reading. If something here resonates with you, I would love to hear from you.",
+  "footer": "Thank you for reading. I can be reached at either email below.",
   "ultraFooter": {
-    "visible": true,
+    "visible": false,
     "text": "Forked from [Michael Ferreira](https://michaelferreira.me)"
   },
   "intro": [
     "I am Pranav Joshi, and I study [Mathematics and Business Administration](yellow) at the University of Waterloo. I grew up believing that numbers tell stories, and I have spent the years since trying to listen carefully to what they say.",
-    "My work lives where three languages meet: the precision of [mathematical optimization](blue), the logic of [computer science](green), and the judgment of [business analysis](orange). I have shipped AI and automation systems into production, built agentic assistants that reason rather than merely reply, and watched tools I wrote quietly save companies thousands of dollars and hundreds of hours.",
+    "My work lives where three languages meet: the precision of [mathematical optimization](blue), the logic of [computer science](green), and the judgment of [business analysis](orange). I have shipped production AI and automation systems at three companies, from an account-merging workflow that consolidates duplicates across 150K+ customer accounts to a GPT and RAG system that analyses 3,000 pages of leases. Together they save those teams about $29K CAD and 500+ hours every year.",
     "I am shaped as much by the competitions I have entered and the cases I have argued as by the contracts I have delivered. What moves me is curiosity, a stubborn love of mathematics, and the conviction that a well posed problem is already half solved. If any of this speaks to you, please reach out."
   ],
   "education": [

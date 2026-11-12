@@ -5,6 +5,12 @@ import Link from "next/link";
 import experienceData from "@/data/experience.json";
 
 export default function Experience() {
+    const duration = (start: string, end: string | null) => {
+        const s = new Date(start);
+        const e = end ? new Date(end) : new Date();
+        const n = (e.getFullYear() - s.getFullYear()) * 12 + e.getMonth() - s.getMonth() + 1;
+        return `${n} ${n === 1 ? "month" : "months"}`;
+    };
     const sortedExperienceData = [...experienceData].sort((a, b) => {
         const endDateA = a.endDate ? new Date(a.endDate) : new Date();
         const endDateB = b.endDate ? new Date(b.endDate) : new Date();
@@ -47,7 +53,7 @@ export default function Experience() {
                                 <span>{exp.location.split(",")[0]}</span>
                                 <span>·</span>
                                 <span className="tabular-nums">
-                                    {exp.startDate} - {exp.endDate ? exp.endDate : "Present"}
+                                    {exp.startDate} - {exp.endDate ? exp.endDate : "Present"} ({duration(exp.startDate, exp.endDate)})
                                 </span>
                             </div>
 

@@ -191,6 +191,9 @@ descending** (null = "Present", sorts to top).
 | `endDate` | string \| null | yes | `null` → **"Present"** and sorts to top. |
 | `description` | string | yes | 1–3 sentences, plain text. |
 | `topics` | string[] | yes | Tag chips. **Only the first 5 are shown.** Use `[]` for none. |
+| `scholarship` | string | no | Shown on its own line under the institution. Omit for none. |
+| `gpa` | string | no | GPA text, e.g. `"3.9/4.0"`. Only shown when `showGpa` is `true`. |
+| `showGpa` | boolean | no | `true` shows `gpa` (if non-empty); `false` hides it. |
 
 ---
 
