@@ -8,8 +8,8 @@
     "endDate": "2031",
     "scholarship": "Presidential Scholarship of Distinction",
     "gpa": "3.7",
-    "showGpa": true,
-    "description": "Current coursework includes MATH 137 Calculus, MATH 135 Proofs, CS 135 Designing Functional Programs and ECON 101 Microeconomics, among other courses.",
+    "showGpa": false,
+    "description": "Current coursework includes MATH 137 Calculus, MATH 135 Proofs, CS 135 Designing Functional Programs and ECON 101 Microeconomics.",
     "topics": ["Proofs", "Calculus", "Functional Programming", "Microeconomics"]
   },
   {

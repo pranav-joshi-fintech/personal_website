@@ -4,8 +4,8 @@
   "description": "Pranav Joshi is a Mathematics and Business Administration student at the University of Waterloo who builds production AI and automation systems, saving the companies using them about $29K CAD and 500 hours a year.",
   "headshot": "/headshots/headshot.png",
   "banner": {
-    "visible": false,
-    "text": "**Open to Summer 2026 internships**. [Reach out](mailto:p42joshi@uwaterloo.ca)"
+    "visible": true,
+    "text": "**Open to May–Aug 2027 internships**. [Reach out](mailto:p42joshi@uwaterloo.ca)"
   },
   "contactBar": {
     "visible": false,
